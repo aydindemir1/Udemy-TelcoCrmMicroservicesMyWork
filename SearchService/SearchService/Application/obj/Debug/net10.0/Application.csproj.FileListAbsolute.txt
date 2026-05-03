@@ -1,0 +1,11 @@
+C:\UdemyTelcoCrmMicroservices\Udemy-TelcoCrmMicroservices\SearchService\SearchService\Application\bin\Debug\net10.0\Application.deps.json
+C:\UdemyTelcoCrmMicroservices\Udemy-TelcoCrmMicroservices\SearchService\SearchService\Application\bin\Debug\net10.0\Application.dll
+C:\UdemyTelcoCrmMicroservices\Udemy-TelcoCrmMicroservices\SearchService\SearchService\Application\bin\Debug\net10.0\Application.pdb
+C:\UdemyTelcoCrmMicroservices\Udemy-TelcoCrmMicroservices\SearchService\SearchService\Application\obj\Debug\net10.0\Application.GeneratedMSBuildEditorConfig.editorconfig
+C:\UdemyTelcoCrmMicroservices\Udemy-TelcoCrmMicroservices\SearchService\SearchService\Application\obj\Debug\net10.0\Application.AssemblyInfoInputs.cache
+C:\UdemyTelcoCrmMicroservices\Udemy-TelcoCrmMicroservices\SearchService\SearchService\Application\obj\Debug\net10.0\Application.AssemblyInfo.cs
+C:\UdemyTelcoCrmMicroservices\Udemy-TelcoCrmMicroservices\SearchService\SearchService\Application\obj\Debug\net10.0\Application.csproj.CoreCompileInputs.cache
+C:\UdemyTelcoCrmMicroservices\Udemy-TelcoCrmMicroservices\SearchService\SearchService\Application\obj\Debug\net10.0\Application.dll
+C:\UdemyTelcoCrmMicroservices\Udemy-TelcoCrmMicroservices\SearchService\SearchService\Application\obj\Debug\net10.0\refint\Application.dll
+C:\UdemyTelcoCrmMicroservices\Udemy-TelcoCrmMicroservices\SearchService\SearchService\Application\obj\Debug\net10.0\Application.pdb
+C:\UdemyTelcoCrmMicroservices\Udemy-TelcoCrmMicroservices\SearchService\SearchService\Application\obj\Debug\net10.0\ref\Application.dll
