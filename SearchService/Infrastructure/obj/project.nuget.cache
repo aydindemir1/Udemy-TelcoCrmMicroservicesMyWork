@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "r4NPidn/tJ4=",
+  "dgSpecHash": "TLfgbkYNwaA=",
   "success": true,
-  "projectFilePath": "C:\\UdemyTelcoCrmMicroservices\\Udemy-TelcoCrmMicroservices\\SearchService\\SearchService\\Infrastructure\\Infrastructure.csproj",
+  "projectFilePath": "C:\\UdemyTelcoCrmMicroservices\\Udemy-TelcoCrmMicroservices\\SearchService\\Infrastructure\\Infrastructure.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\aydin\\.nuget\\packages\\core.elasticsearch\\3.0.0\\core.elasticsearch.3.0.0.nupkg.sha512",
     "C:\\Users\\aydin\\.nuget\\packages\\elasticsearch.net\\7.17.5\\elasticsearch.net.7.17.5.nupkg.sha512",

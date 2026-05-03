@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "C:\\UdemyTelcoCrmMicroservices\\Udemy-TelcoCrmMicroservices\\SearchService\\SearchService\\WebApi\\WebApi.csproj": {}
+    "C:\\UdemyTelcoCrmMicroservices\\Udemy-TelcoCrmMicroservices\\SearchService\\WebApi\\WebApi.csproj": {}
   },
   "projects": {
-    "C:\\UdemyTelcoCrmMicroservices\\Udemy-TelcoCrmMicroservices\\SearchService\\SearchService\\Infrastructure\\Infrastructure.csproj": {
+    "C:\\UdemyTelcoCrmMicroservices\\Udemy-TelcoCrmMicroservices\\SearchService\\Infrastructure\\Infrastructure.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\UdemyTelcoCrmMicroservices\\Udemy-TelcoCrmMicroservices\\SearchService\\SearchService\\Infrastructure\\Infrastructure.csproj",
+        "projectUniqueName": "C:\\UdemyTelcoCrmMicroservices\\Udemy-TelcoCrmMicroservices\\SearchService\\Infrastructure\\Infrastructure.csproj",
         "projectName": "Infrastructure",
-        "projectPath": "C:\\UdemyTelcoCrmMicroservices\\Udemy-TelcoCrmMicroservices\\SearchService\\SearchService\\Infrastructure\\Infrastructure.csproj",
+        "projectPath": "C:\\UdemyTelcoCrmMicroservices\\Udemy-TelcoCrmMicroservices\\SearchService\\Infrastructure\\Infrastructure.csproj",
         "packagesPath": "C:\\Users\\aydin\\.nuget\\packages\\",
-        "outputPath": "C:\\UdemyTelcoCrmMicroservices\\Udemy-TelcoCrmMicroservices\\SearchService\\SearchService\\Infrastructure\\obj\\",
+        "outputPath": "C:\\UdemyTelcoCrmMicroservices\\Udemy-TelcoCrmMicroservices\\SearchService\\Infrastructure\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
@@ -356,14 +356,14 @@
         }
       }
     },
-    "C:\\UdemyTelcoCrmMicroservices\\Udemy-TelcoCrmMicroservices\\SearchService\\SearchService\\WebApi\\WebApi.csproj": {
+    "C:\\UdemyTelcoCrmMicroservices\\Udemy-TelcoCrmMicroservices\\SearchService\\WebApi\\WebApi.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\UdemyTelcoCrmMicroservices\\Udemy-TelcoCrmMicroservices\\SearchService\\SearchService\\WebApi\\WebApi.csproj",
+        "projectUniqueName": "C:\\UdemyTelcoCrmMicroservices\\Udemy-TelcoCrmMicroservices\\SearchService\\WebApi\\WebApi.csproj",
         "projectName": "WebApi",
-        "projectPath": "C:\\UdemyTelcoCrmMicroservices\\Udemy-TelcoCrmMicroservices\\SearchService\\SearchService\\WebApi\\WebApi.csproj",
+        "projectPath": "C:\\UdemyTelcoCrmMicroservices\\Udemy-TelcoCrmMicroservices\\SearchService\\WebApi\\WebApi.csproj",
         "packagesPath": "C:\\Users\\aydin\\.nuget\\packages\\",
-        "outputPath": "C:\\UdemyTelcoCrmMicroservices\\Udemy-TelcoCrmMicroservices\\SearchService\\SearchService\\WebApi\\obj\\",
+        "outputPath": "C:\\UdemyTelcoCrmMicroservices\\Udemy-TelcoCrmMicroservices\\SearchService\\WebApi\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
@@ -386,8 +386,8 @@
             "framework": "net10.0",
             "targetAlias": "net10.0",
             "projectReferences": {
-              "C:\\UdemyTelcoCrmMicroservices\\Udemy-TelcoCrmMicroservices\\SearchService\\SearchService\\Infrastructure\\Infrastructure.csproj": {
-                "projectPath": "C:\\UdemyTelcoCrmMicroservices\\Udemy-TelcoCrmMicroservices\\SearchService\\SearchService\\Infrastructure\\Infrastructure.csproj"
+              "C:\\UdemyTelcoCrmMicroservices\\Udemy-TelcoCrmMicroservices\\SearchService\\Infrastructure\\Infrastructure.csproj": {
+                "projectPath": "C:\\UdemyTelcoCrmMicroservices\\Udemy-TelcoCrmMicroservices\\SearchService\\Infrastructure\\Infrastructure.csproj"
               }
             }
           }
