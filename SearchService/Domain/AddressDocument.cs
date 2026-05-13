@@ -1,0 +1,17 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Text;
+
+namespace Domain
+{
+    public class AddressDocument
+    {
+        public Guid Id { get; set; }
+        public Guid CustomerId { get; set; }
+        public string DistrictName { get; set; }
+        public string CityName { get; set; }
+        public string Street { get; set; }
+        public string HouseName { get; set; }
+        public string Description { get; set; }
+    }
+}

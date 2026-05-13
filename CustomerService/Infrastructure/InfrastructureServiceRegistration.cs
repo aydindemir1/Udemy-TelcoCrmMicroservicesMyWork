@@ -1,5 +1,6 @@
 ﻿using Core.Events;
 using Core.Messaging;
+using Core.Messaging.Postgres.Extensions;
 using Core.Messaging.Transport.RabbitMq;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -30,7 +31,7 @@ namespace Infrastructure
             //    builder.AddNpgSql(connectionString: configuration.GetConnectionString("CustomerDbConnection"), name: "customerservice-db", tags: new[] { "services" });
             //});
 
-            //services.AddPostgresMessaging(configuration);
+            services.AddPostgresMessaging(configuration);
             return services;
         }
     }

@@ -1,14 +1,16 @@
 using Core.CrossCuttingConcerns.Exceptions.Extensions;
 using Infrastructure;
+using Application;
 using Microsoft.AspNetCore.Identity;
 using WebApi;
 using Infrastructure;
+using Core.Extensions;
 
 var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddControllers();
 
-//builder.Services.AddApplicationServices();
+builder.Services.AddApplicationServices();
 builder.Services.AddInfrastructureServices(builder.Configuration);
 //builder.Services.AddDiscoveryClient();
 builder.Services.AddHttpContextAccessor();
@@ -32,15 +34,15 @@ builder.Services.AddHttpContextAccessor();
 var app = builder.Build();
 
 await CreateCustomerIndex.EnsureElasticIndexCreateAsync(app.Services);
-//ServiceActivator.Configure(app.Services);
+ServiceActivator.Configure(app.Services);
 
 if (app.Environment.IsDevelopment() || app.Environment.IsProduction())
     app.ConfigureExceptionMiddleware();
 //app.UseMonitoring();
-//app.UseRouting();
+app.UseRouting();
 //app.UseAuthentication();
 //app.UseAuthorization();
-//app.MapControllers();
+app.MapControllers();
 
 app.Run();
 

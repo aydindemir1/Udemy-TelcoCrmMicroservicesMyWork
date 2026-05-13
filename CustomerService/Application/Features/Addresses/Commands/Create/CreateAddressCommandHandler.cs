@@ -42,10 +42,10 @@ namespace Application.Features.Addresses.Commands.Create
             await _unitOfWork.SaveChangesAsync(cancellationToken);
 
             //Doğrudan eventi RabbitMQ tarafına gönder 
-            await _eventProcessor.PublishAsync(addressCreatedEvent,EventPublishingStrategy.Volatile, cancellationToken);
+            //await _eventProcessor.PublishAsync(addressCreatedEvent,EventPublishingStrategy.Volatile, cancellationToken);
 
             //Outbox tablosuna ekle, daha sonra bu tabloyu dinleyen bir background service RabbitMQ'ya gönderecek
-            //await _eventProcessor.PublishAsync(addressCreatedEvent, EventPublishingStrategy.Transactional, cancellationToken);
+            await _eventProcessor.PublishAsync(addressCreatedEvent, EventPublishingStrategy.Transactional, cancellationToken);
             CreatedAddressResponse response = _mapper.Map<CreatedAddressResponse>(createdAddress);
             return response;
         }

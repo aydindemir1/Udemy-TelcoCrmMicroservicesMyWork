@@ -59,14 +59,14 @@ namespace Application.Features.IndividualCustomers.Commands.Create
         private readonly IEventProcessor _eventProcessor;
 
 
-        public CreateIndividualCustomerCommandHandler(IIndividualCustomerRepository individualCustomerRepository, IUnitOfWork unitOfWork, IMapper mapper, ILogger<CreateIndividualCustomerCommandHandler> logger, IndividualCustomerBusinessRules individualCustomerBusinessRules//, IEventProcessor eventProcessor
+        public CreateIndividualCustomerCommandHandler(IIndividualCustomerRepository individualCustomerRepository, IUnitOfWork unitOfWork, IMapper mapper, ILogger<CreateIndividualCustomerCommandHandler> logger, IndividualCustomerBusinessRules individualCustomerBusinessRules, IEventProcessor eventProcessor
                                                                                                                                                                                                                 )
         {
             _individualCustomerRepository = individualCustomerRepository;
             _unitOfWork = unitOfWork;
             _mapper = mapper;
             _individualCustomerBusinessRules = individualCustomerBusinessRules;
-            //_eventProcessor = eventProcessor;
+            _eventProcessor = eventProcessor;
         }
 
         public async Task<CreatedIndividualCustomerResponse> Handle(CreateIndividualCustomerCommand request, CancellationToken cancellationToken)
@@ -85,10 +85,10 @@ namespace Application.Features.IndividualCustomers.Commands.Create
             await _unitOfWork.SaveChangesAsync(cancellationToken);
 
             //Doğrudan eventi RabbitMQ tarafına gönder 
-            await _eventProcessor.PublishAsync(customerCreatedEvent,EventPublishingStrategy.Volatile, cancellationToken);
+            //await _eventProcessor.PublishAsync(customerCreatedEvent,EventPublishingStrategy.Volatile, cancellationToken);
 
             //Outbox tablosuna ekle, daha sonra bu tabloyu dinleyen bir background service RabbitMQ'ya gönderecek
-           // await _eventProcessor.PublishAsync(customerCreatedEvent, EventPublishingStrategy.Transactional, cancellationToken);
+            await _eventProcessor.PublishAsync(customerCreatedEvent, EventPublishingStrategy.Transactional, cancellationToken);
 
             CreatedIndividualCustomerResponse response = _mapper.Map<CreatedIndividualCustomerResponse>(createdIndividualCustomer);
 

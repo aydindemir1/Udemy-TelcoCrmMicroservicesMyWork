@@ -11,6 +11,7 @@ using Persistence.Contexts;
 using Persistence.Repositories;
 using System.Text.Json.Serialization;
 using Infrastructure;
+using Core.Messaging.Postgres.Extensions;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -18,10 +19,10 @@ builder.Services.AddControllers();
 
 
 
-//builder.Services.AddControllers().AddJsonOptions(options =>
-//{
-//    options.JsonSerializerOptions.Converters.Add(new JsonStringEnumConverter());
-//});
+builder.Services.AddControllers().AddJsonOptions(options =>
+{
+    options.JsonSerializerOptions.Converters.Add(new JsonStringEnumConverter());
+});
 
 builder.Services.AddApplicationServices();
 builder.Services.AddPersistenceServices(builder.Configuration);
@@ -51,7 +52,7 @@ if (app.Environment.IsDevelopment() || app.Environment.IsProduction())
    app.ConfigureExceptionMiddleware();
 //app.UseMonitoring();
 //app.UseRouting();
-//await app.UsePostgresMessaging();
+await app.UsePostgresMessaging();
 //app.UseAuthentication();
 //app.UseAuthorization();
 app.MapControllers();

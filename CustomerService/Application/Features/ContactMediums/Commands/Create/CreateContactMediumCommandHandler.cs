@@ -38,10 +38,10 @@ namespace Application.Features.ContactMediums.Commands.Create
 
 
             //Doğrudan eventi RabbitMQ tarafına gönder 
-            await _eventProcessor.PublishAsync(contactMediumCreatedEvent, EventPublishingStrategy.Volatile, cancellationToken);
+            //await _eventProcessor.PublishAsync(contactMediumCreatedEvent, EventPublishingStrategy.Volatile, cancellationToken);
 
             //Outbox tablosuna ekle, daha sonra bu tabloyu dinleyen bir background service RabbitMQ'ya gönderecek
-           // await _eventProcessor.PublishAsync(contactMediumCreatedEvent, EventPublishingStrategy.Transactional, cancellationToken);
+           await _eventProcessor.PublishAsync(contactMediumCreatedEvent, EventPublishingStrategy.Transactional, cancellationToken);
             CreatedContactMediumResponse response = _mapper.Map<CreatedContactMediumResponse>(createdContactMedium);
             return response;
         }

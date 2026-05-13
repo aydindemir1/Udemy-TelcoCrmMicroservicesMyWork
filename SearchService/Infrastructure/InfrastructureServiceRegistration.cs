@@ -23,7 +23,7 @@ namespace Infrastructure
             services.AddRabbitMqTransport(configuration)
                 .AddMessagingCore()
                 .AddMessagingSerializer()
-                //.AddHostedSubscriber()
+                .AddHostedSubscriber()
                 .AddEvent();
 
             services.AddElasticSearch();
