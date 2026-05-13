@@ -1,5 +1,4 @@
-﻿using Core.ElasticSearch;
-using Core.Events;
+﻿using Core.Events;
 using Core.Messaging;
 using Core.Messaging.Transport.RabbitMq;
 using Microsoft.Extensions.Configuration;
@@ -12,8 +11,7 @@ namespace Infrastructure
 {
     public static class InfrastructureServiceRegistration
     {
-        public static IServiceCollection AddInfrastructureServices(this IServiceCollection services, IConfiguration configuration
-                                                                                                   )
+        public static IServiceCollection AddInfrastructureServices(this IServiceCollection services, IConfiguration configuration)
         {
             //services
             //   .AddJwtServices()
@@ -23,18 +21,16 @@ namespace Infrastructure
             services.AddRabbitMqTransport(configuration)
                 .AddMessagingCore()
                 .AddMessagingSerializer()
-                //.AddHostedSubscriber()
                 .AddEvent();
-
-            services.AddElasticSearch();
 
             //services.AddOTelIntegration(configuration);
 
             //services.AddMonitoring(configuration, builder =>
             //{
-            //    builder.AddElasticsearch(elasticsearchUri: configuration["ElasticSearch:ConnectionString"], name: "searchservice-db", tags: new[] { "services" });
+            //    builder.AddNpgSql(connectionString: configuration.GetConnectionString("CustomerDbConnection"), name: "customerservice-db", tags: new[] { "services" });
             //});
 
+            //services.AddPostgresMessaging(configuration);
             return services;
         }
     }

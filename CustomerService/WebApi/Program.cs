@@ -10,6 +10,7 @@ using Persistence;
 using Persistence.Contexts;
 using Persistence.Repositories;
 using System.Text.Json.Serialization;
+using Infrastructure;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -24,7 +25,7 @@ builder.Services.AddControllers();
 
 builder.Services.AddApplicationServices();
 builder.Services.AddPersistenceServices(builder.Configuration);
-//builder.Services.AddInfrastructureServices(builder.Configuration);
+builder.Services.AddInfrastructureServices(builder.Configuration);
 //builder.Services.AddDiscoveryClient();
 //builder.Services.AddHttpContextAccessor();
 

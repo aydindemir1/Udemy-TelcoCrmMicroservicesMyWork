@@ -41,10 +41,27 @@ services:
       - elasticsearch
     networks:
       - udemy
+  
+  # message broker  
+  rabbitmq:
+   image: rabbitmq:3.13-management
+   container_name: rabbitmq
+   hostname: rabbitmq
+   ports:
+    - "5672:5672"
+    - "15672:15672"
+   environment:
+    RABBITMQ_DEFAULT_USER : admin
+    RABBITMQ_DEFAULT_PASS : admin123
+   volumes:
+    - rabbitmq_data:/var/lib/rabbitmq
+   networks:
+    - udemy
 
 volumes:
   customerdb:
   esdata:
+  rabbitmq_data:
 
 networks:
   udemy:

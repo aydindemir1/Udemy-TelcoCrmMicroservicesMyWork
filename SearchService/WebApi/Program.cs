@@ -2,13 +2,14 @@ using Core.CrossCuttingConcerns.Exceptions.Extensions;
 using Infrastructure;
 using Microsoft.AspNetCore.Identity;
 using WebApi;
+using Infrastructure;
 
 var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddControllers();
 
 //builder.Services.AddApplicationServices();
-builder.Services.AddInfrastructureServices();
+builder.Services.AddInfrastructureServices(builder.Configuration);
 //builder.Services.AddDiscoveryClient();
 builder.Services.AddHttpContextAccessor();
 
