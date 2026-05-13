@@ -1,4 +1,5 @@
 ﻿using Application.Features.IndividualCustomers.Rules;
+using Application.Services.Districts;
 using Core.Abstractions.Rules;
 using Core.Application.Pipelines.Validation;
 using Core.Cqrs;
@@ -26,7 +27,7 @@ namespace Application
             //    services.AddTransient(typeof(IPipelineBehavior<,>), typeof(AuthorizationBehavior<,>));
             });
 
-            //services.AddScoped<IDistrictService, DistrictManager>();
+            services.AddScoped<IDistrictService, DistrictManager>();
             //services.AddMediatR(cfg => cfg.RegisterServicesFromAssembly(Assembly.GetExecutingAssembly()));
             services.AddValidatorsFromAssemblies(assemblies);
             services.AddAutoMapper(assemblies);

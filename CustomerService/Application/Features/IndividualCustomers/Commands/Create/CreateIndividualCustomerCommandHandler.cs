@@ -3,9 +3,11 @@ using Application.Repositories;
 using AutoMapper;
 using Core.Abstractions.ContextExecutions;
 using Core.Abstractions.Cqrs.Command;
+using Core.Abstractions.Events;
 using Domain.Entities;
 using MediatR;
 using Microsoft.Extensions.Logging;
+using Shared.Events.Customers;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -54,7 +56,7 @@ namespace Application.Features.IndividualCustomers.Commands.Create
         private readonly IUnitOfWork _unitOfWork;
         private readonly IMapper _mapper;
         private readonly IndividualCustomerBusinessRules _individualCustomerBusinessRules;
-        //private readonly IEventProcessor _eventProcessor;
+        private readonly IEventProcessor _eventProcessor;
 
 
         public CreateIndividualCustomerCommandHandler(IIndividualCustomerRepository individualCustomerRepository, IUnitOfWork unitOfWork, IMapper mapper, ILogger<CreateIndividualCustomerCommandHandler> logger, IndividualCustomerBusinessRules individualCustomerBusinessRules//, IEventProcessor eventProcessor
@@ -77,13 +79,13 @@ namespace Application.Features.IndividualCustomers.Commands.Create
             IndividualCustomer createdIndividualCustomer = await _individualCustomerRepository.AddAsync(mappedIndividualCustomer);
 
 
-            //CustomerCreatedIntegrationEvent customerCreatedEvent = new
-            //(createdIndividualCustomer.Id, createdIndividualCustomer.CustomerNumber, createdIndividualCustomer.FirstName, createdIndividualCustomer.LastName, createdIndividualCustomer.NationalIdentity, createdIndividualCustomer.BirthDate);
+            CustomerCreatedIntegrationEvent customerCreatedEvent = new
+            (createdIndividualCustomer.Id, createdIndividualCustomer.CustomerNumber, createdIndividualCustomer.FirstName, createdIndividualCustomer.LastName, createdIndividualCustomer.NationalIdentity, createdIndividualCustomer.BirthDate);
 
             await _unitOfWork.SaveChangesAsync(cancellationToken);
 
             //Doğrudan eventi RabbitMQ tarafına gönder 
-            //await _eventProcessor.PublishAsync(customerCreatedEvent,EventPublishingStrategy.Volatile, cancellationToken);
+            await _eventProcessor.PublishAsync(customerCreatedEvent,EventPublishingStrategy.Volatile, cancellationToken);
 
             //Outbox tablosuna ekle, daha sonra bu tabloyu dinleyen bir background service RabbitMQ'ya gönderecek
            // await _eventProcessor.PublishAsync(customerCreatedEvent, EventPublishingStrategy.Transactional, cancellationToken);
