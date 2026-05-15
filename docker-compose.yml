@@ -1,5 +1,3 @@
-version: '3.6'
-
 services:
 
   customerdb:
@@ -15,6 +13,20 @@ services:
       - customerdb:/var/lib/postgresql/data
     networks:
       - udemy
+  
+  catalogdb:
+    image: mcr.microsoft.com/mssql/server:2022-latest
+    container_name: catalogdb
+    environment:
+     - ACCEPT_EULA=Y
+     - SA_PASSWORD=YourStrong!Pass123
+     - MSSQL_PID=Developer
+    ports:
+     - "1435:1433"
+    volumes:
+     - catalogdb:/var/opt/mssql
+    networks:
+     - udemy
 
   elasticsearch:
     image: docker.elastic.co/elasticsearch/elasticsearch:8.14.1
@@ -62,6 +74,7 @@ volumes:
   customerdb:
   esdata:
   rabbitmq_data:
+  catalogdb:
 
 networks:
   udemy:

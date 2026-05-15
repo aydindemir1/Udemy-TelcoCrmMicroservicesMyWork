@@ -1,0 +1,31 @@
+﻿using Domain.Entities;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Metadata.Builders;
+using System;
+using System.Collections.Generic;
+using System.Text;
+
+namespace Persistence.EntityTypeConfigurations
+{
+    public class ProductSpecCharacteristicConfiguration : IEntityTypeConfiguration<ProductSpecCharacteristic>
+    {
+        public void Configure(EntityTypeBuilder<ProductSpecCharacteristic> builder)
+        {
+            builder.HasKey(x => x.Id);
+            builder.Property(x => x.Name).IsRequired().HasMaxLength(50);
+            builder.Property(x => x.ProductSpecificationId).IsRequired();
+            builder.Property(x => x.ValueType).IsRequired();
+            builder.Property(x => x.IsConfigurable).IsRequired();
+            builder.Property(x => x.UnitOfMeasure).IsRequired();
+            builder.Property(x => x.CreatedDate).IsRequired();
+            builder.Property(x => x.UpdatedDate);
+            builder.Property(x => x.DeletedDate);
+
+            builder.HasMany(x => x.ProductSpecCharacteristicValues);
+            builder.HasOne(x => x.ProductSpecification);
+
+            builder.HasQueryFilter(x => !x.DeletedDate.HasValue);
+            builder.HasBaseType((string)null!);
+        }
+    }
+}
