@@ -28,7 +28,7 @@ namespace Application
             });
 
             services.AddScoped<IDistrictService, DistrictManager>();
-            //services.AddMediatR(cfg => cfg.RegisterServicesFromAssembly(Assembly.GetExecutingAssembly()));
+            services.AddMediatR(cfg => cfg.RegisterServicesFromAssembly(Assembly.GetExecutingAssembly()));
             services.AddValidatorsFromAssemblies(assemblies);
             services.AddAutoMapper(assemblies);
 

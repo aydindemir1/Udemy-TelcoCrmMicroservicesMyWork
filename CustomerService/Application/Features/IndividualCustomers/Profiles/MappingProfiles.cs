@@ -1,4 +1,5 @@
 ﻿using Application.Features.IndividualCustomers.Commands.Create;
+using Application.Features.IndividualCustomers.Queries.GetList;
 using AutoMapper;
 using Domain.Entities;
 using System;
@@ -20,11 +21,11 @@ namespace Application.Features.IndividualCustomers.Profiles
                 .ReverseMap();
             CreateMap<IndividualCustomer, CreateIndividualCustomerCommand>().ReverseMap();
             CreateMap<IndividualCustomer, CreatedIndividualCustomerResponse>().ReverseMap();
-            //CreateMap<Address, CustomerAddressResponse>()
-            //    .ForMember(dest => dest.Type, opt => opt.MapFrom(src => src.Type))
-            //    .ForMember(dest => dest.Summary, opt => opt.MapFrom(src => $"{src.Street} No: {src.HouseNumber} {src.District.Name}/{src.District.City.Name}"));
-            //CreateMap<IndividualCustomer, GetListIndividualCustomerResponse>()
-            //    .ForMember(dest => dest.Addresses, opt => opt.MapFrom(src => src.Addresses));
+            CreateMap<Address, CustomerAddressResponse>()
+                .ForMember(dest => dest.Type, opt => opt.MapFrom(src => src.Type))
+                .ForMember(dest => dest.Summary, opt => opt.MapFrom(src => $"{src.Street} No: {src.HouseNumber} {src.District.Name}/{src.District.City.Name}"));
+            CreateMap<IndividualCustomer, GetListIndividualCustomerResponse>()
+                .ForMember(dest => dest.Addresses, opt => opt.MapFrom(src => src.Addresses));
 
         }
     }
