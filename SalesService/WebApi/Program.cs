@@ -1,9 +1,8 @@
-using Core.CrossCuttingConcerns.Exceptions.Extensions;
+using Microsoft.AspNetCore.Identity;
 using Application;
 using Infrastructure;
 using Persistence;
-using Microsoft.AspNetCore.Identity;
-using Core.Extensions;
+using Core.CrossCuttingConcerns.Exceptions.Extensions;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -11,7 +10,7 @@ builder.Services.AddControllers();
 
 builder.Services.AddApplicationServices();
 builder.Services.AddInfrastructureServices(builder.Configuration);
-builder.Services.AddPersistenceServices(builder.Configuration);
+builder.Services.AddPersistenceService(builder.Configuration);
 //builder.Services.AddDiscoveryClient();
 builder.Services.AddHttpContextAccessor();
 
@@ -31,18 +30,15 @@ builder.Services.AddHttpContextAccessor();
 //    };
 //});
 
-
 var app = builder.Build();
 
 if (app.Environment.IsDevelopment() || app.Environment.IsProduction())
     app.ConfigureExceptionMiddleware();
-
 //app.UseMonitoring();
-ServiceActivator.Configure(app.Services);
-
 app.UseRouting();
 //app.UseAuthentication();
 //app.UseAuthorization();
 app.MapControllers();
+
 
 app.Run();

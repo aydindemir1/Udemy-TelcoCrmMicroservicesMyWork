@@ -16,9 +16,9 @@ namespace Infrastructure
         public static IServiceCollection AddInfrastructureServices(this IServiceCollection services, IConfiguration configuration)
         {
 
-            services.AddHttpClient<ICatalogServiceClient, CatalogServiceClient>(client =>
+            services.AddHttpClient<IBasketServiceClient, BasketServiceClient>(client =>
             {
-                client.BaseAddress = new Uri(configuration["ExternalServices:CatalogService"]);
+                client.BaseAddress = new Uri(configuration["ExternalServices:BasketService"]);
             });
             //.AddCustomPolicyHandlers()
             //.AddServiceDiscovery()
@@ -30,8 +30,8 @@ namespace Infrastructure
                 client.BaseAddress = new Uri(configuration["ExternalServices:CustomerService"]);
             });
             //  .AddCustomPolicyHandlers()
-            //  .AddServiceDiscovery()
-            //  .AddAuthTokenHandler();
+            //.AddServiceDiscovery()
+            //.AddAuthTokenHandler();
 
             //services
             //   .AddJwtServices()
@@ -39,17 +39,21 @@ namespace Infrastructure
             //   .AddRedisSecurityServices(configuration);
 
             services.AddRabbitMqTransport(configuration)
-               .AddHostedSubscriber()
-               .AddMessagingSerializer()
-               .AddEvent();
+                .AddMessagingSerializer()
+                .AddEvent();
 
             //services.AddOTelIntegration(configuration);
 
             //services.AddMonitoring(configuration, builder =>
             //{
-            //    builder.AddRedis(redisConnectionString: configuration.GetConnectionString("BasketDbConnection"), name: "basketservice-db", tags: new[] { "services" });
-            //});
+            //    builder.AddMongoDb(clientFactory: sp =>
+            //    {
+            //        var settings = configuration.GetSection("MongoSettings");
+            //        var connectionString = settings["ConnectionString"];
+            //        return new MongoClient(connectionString);
+            //    }, databaseNameFactory: sp => "SalesServiceDb", name: "salesservice-db", failureStatus: HealthStatus.Unhealthy, tags: new[] { "services" });
 
+            //});
 
             return services;
         }
