@@ -9,6 +9,8 @@
   <ItemGroup>
     <PackageReference Include="Core.CrossCuttingConcerns.Exceptions" Version="3.0.0" />
     <PackageReference Include="Core.WebApi" Version="3.0.0" />
+	  <PackageReference Include="Steeltoe.Discovery.ClientCore" Version="3.2.8" />
+	  <PackageReference Include="Steeltoe.Discovery.Eureka" Version="3.2.8" />
   </ItemGroup>
 
   <ItemGroup>

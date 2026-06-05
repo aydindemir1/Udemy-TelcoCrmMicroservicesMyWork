@@ -1,4 +1,13 @@
 services:
+  
+  eurekaserver:
+    image: steeltoeoss/eureka-server
+    container_name: eurekaserver
+    ports:
+     - "8761:8761"
+    networks:
+     - udemy
+
 
   customerdb:
     image: postgres

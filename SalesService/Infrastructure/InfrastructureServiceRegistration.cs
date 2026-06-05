@@ -5,6 +5,7 @@ using Core.Messaging.Transport.RabbitMq;
 using Infrastructure.Clients;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Steeltoe.Common.Http.Discovery;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -19,18 +20,18 @@ namespace Infrastructure
             services.AddHttpClient<IBasketServiceClient, BasketServiceClient>(client =>
             {
                 client.BaseAddress = new Uri(configuration["ExternalServices:BasketService"]);
-            });
+            })
             //.AddCustomPolicyHandlers()
-            //.AddServiceDiscovery()
+            .AddServiceDiscovery();
             //.AddAuthTokenHandler();
 
 
             services.AddHttpClient<ICustomerServiceClient, CustomerServiceClient>(client =>
             {
                 client.BaseAddress = new Uri(configuration["ExternalServices:CustomerService"]);
-            });
+            })
             //  .AddCustomPolicyHandlers()
-            //.AddServiceDiscovery()
+            .AddServiceDiscovery();
             //.AddAuthTokenHandler();
 
             //services

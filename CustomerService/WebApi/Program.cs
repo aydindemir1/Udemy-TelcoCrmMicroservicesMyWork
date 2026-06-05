@@ -12,6 +12,8 @@ using Persistence.Repositories;
 using System.Text.Json.Serialization;
 using Infrastructure;
 using Core.Messaging.Postgres.Extensions;
+using Steeltoe.Discovery.Client;
+
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -27,7 +29,7 @@ builder.Services.AddControllers().AddJsonOptions(options =>
 builder.Services.AddApplicationServices();
 builder.Services.AddPersistenceServices(builder.Configuration);
 builder.Services.AddInfrastructureServices(builder.Configuration);
-//builder.Services.AddDiscoveryClient();
+builder.Services.AddDiscoveryClient();
 builder.Services.AddHttpContextAccessor();
 
 //TokenOptions? tokenOptions = builder.Configuration.GetSection("TokenOptions").Get<TokenOptions>();
@@ -51,7 +53,7 @@ var app = builder.Build();
 if (app.Environment.IsDevelopment() || app.Environment.IsProduction())
    app.ConfigureExceptionMiddleware();
 //app.UseMonitoring();
-//app.UseRouting();
+app.UseRouting();
 await app.UsePostgresMessaging();
 //app.UseAuthentication();
 //app.UseAuthorization();

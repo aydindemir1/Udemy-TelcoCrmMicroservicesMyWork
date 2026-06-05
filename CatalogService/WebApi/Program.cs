@@ -3,6 +3,7 @@ using Core.CrossCuttingConcerns.Exceptions.Extensions;
 using System.Text.Json.Serialization;
 using Infrastructure;
 using Persistence;
+using Steeltoe.Discovery.Client;
 
 
 var builder = WebApplication.CreateBuilder(args);
@@ -16,7 +17,7 @@ builder.Services.AddControllers().AddJsonOptions(options =>
 builder.Services.AddApplicationServices();
 builder.Services.AddPersistenceServices(builder.Configuration);
 builder.Services.AddInfrastructureServices(builder.Configuration);
-//builder.Services.AddDiscoveryClient();
+builder.Services.AddDiscoveryClient();
 builder.Services.AddHttpContextAccessor();
 
 //TokenOptions? tokenOptions = builder.Configuration.GetSection("TokenOptions").Get<TokenOptions>();

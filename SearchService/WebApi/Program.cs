@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Identity;
 using WebApi;
 using Infrastructure;
 using Core.Extensions;
+using Steeltoe.Discovery.Client;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -12,7 +13,7 @@ builder.Services.AddControllers();
 
 builder.Services.AddApplicationServices();
 builder.Services.AddInfrastructureServices(builder.Configuration);
-//builder.Services.AddDiscoveryClient();
+builder.Services.AddDiscoveryClient();
 builder.Services.AddHttpContextAccessor();
 
 //TokenOptions? tokenOptions = builder.Configuration.GetSection("TokenOptions").Get<TokenOptions>();
