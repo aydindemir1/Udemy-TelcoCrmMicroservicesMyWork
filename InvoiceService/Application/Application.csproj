@@ -1,0 +1,21 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net10.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Core.Abstractions" Version="3.1.6" />
+    <PackageReference Include="Core.Cqrs" Version="3.0.0" />
+    <PackageReference Include="Core.Extensions" Version="3.0.3" />
+    <PackageReference Include="MediatR" Version="14.1.0" />
+    <PackageReference Include="Shared" Version="3.0.1" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Domain\Domain.csproj" />
+  </ItemGroup>
+
+</Project>
