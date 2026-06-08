@@ -1,0 +1,38 @@
+﻿using Core.Security.Redis;
+using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.DependencyInjection;
+using System;
+using System.Collections.Generic;
+using System.Text;
+
+namespace Infrastructure
+{
+    public static class InfrastructureServiceRegistration
+    {
+        public static IServiceCollection AddInfrastructureServices(this IServiceCollection services, IConfiguration configuration)
+        {
+            //services.AddHangfireScheduler(configuration);
+
+            //services.AddHostedService<SchedulerBootstrapperHostedService>();
+
+            //services.AddMailing();
+
+            services
+            //    .AddEmailAuthenticatorServices()
+            //    .AddHashingServices()
+            //    .AddJwtServices()
+            //    .AddEncryptServices()
+                .AddRedisSecurityServices(configuration);
+
+            //services.AddOTelIntegration(configuration);
+
+            //services.AddMonitoring(configuration, builder =>
+            //{
+
+            //    builder.AddSqlServer(connectionString: configuration.GetConnectionString("IdentityDbConnection"), name: "identityservice-db", tags: new[] { "services" });
+            //});
+
+            return services;
+        }
+    }
+}

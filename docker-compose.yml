@@ -70,6 +70,32 @@ services:
     networks:
      - udemy
 
+  
+  identitydb:
+    image: mcr.microsoft.com/mssql/server:2022-latest
+    container_name: identitydb
+    environment:
+     - ACCEPT_EULA=Y
+     - SA_PASSWORD=YourStrong!Pass123
+     - MSSQL_PID=Developer
+    ports:
+     - "1436:1433"
+    volumes:
+     - identitydb:/var/opt/mssql
+    networks:
+     - udemy
+
+  authroledb:
+    image: redis:7.2
+    container_name: authroledb
+    ports:
+     - "6391:6379"
+    volumes:
+     - authroledb:/data
+    command : ["redis-server","--appendonly","yes"]
+    networks:
+     - udemy
+
   elasticsearch:
     image: docker.elastic.co/elasticsearch/elasticsearch:8.14.1
     container_name: elasticsearch
@@ -119,6 +145,8 @@ volumes:
   catalogdb:
   basketdb:
   salesdb:
+  identitydb:
+  authroledb:
 
 networks:
   udemy:

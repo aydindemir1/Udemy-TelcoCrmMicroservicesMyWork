@@ -1,0 +1,28 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net10.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Folder Include="Features\Auth\Commands\EnableEmailAuthenticator\" />
+    <Folder Include="Features\Auth\Commands\Login\" />
+    <Folder Include="Features\Auth\Commands\VerifyEmailAuthenticator\" />
+    <Folder Include="Features\Auth\Commands\Register\" />
+    <Folder Include="Features\Auth\Commands\RefreshTokens\" />
+    <Folder Include="Features\Auth\Constants\" />
+    <Folder Include="Features\Auth\Rules\" />
+    <Folder Include="Features\Auth\Responses\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Core.Abstractions" Version="3.1.6" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Domain\Domain.csproj" />
+  </ItemGroup>
+
+</Project>
