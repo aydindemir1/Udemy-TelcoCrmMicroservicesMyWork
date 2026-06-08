@@ -7,16 +7,13 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Folder Include="Features\Auth\Commands\EnableEmailAuthenticator\" />
-    <Folder Include="Features\Auth\Commands\VerifyEmailAuthenticator\" />
-  </ItemGroup>
-
-  <ItemGroup>
     <PackageReference Include="Core.Abstractions" Version="3.1.6" />
     <PackageReference Include="Core.Application" Version="3.0.1" />
     <PackageReference Include="Core.Cqrs" Version="3.0.0" />
     <PackageReference Include="Core.CrossCuttingConcerns.Exceptions" Version="3.0.0" />
     <PackageReference Include="Core.Extensions" Version="3.0.3" />
+    <PackageReference Include="Core.Mailing" Version="3.0.0" />
+    <PackageReference Include="Core.Security.EmailAuthenticator" Version="3.0.0" />
     <PackageReference Include="Core.Security.Hashing" Version="3.0.0" />
     <PackageReference Include="Core.Security.Jwt" Version="3.0.0" />
     <PackageReference Include="FluentValidation" Version="12.1.1" />

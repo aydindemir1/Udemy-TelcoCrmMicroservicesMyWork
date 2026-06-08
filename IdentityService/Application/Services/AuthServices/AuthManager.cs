@@ -1,14 +1,14 @@
 ﻿using Application.Repositories;
+using Application.Repositories;
 using Core.Abstractions.ContextExecutions;
 using Core.CrossCuttingConcerns.Exceptions.Types;
+using Core.Mailing;
 using Core.Security.Domain.Enums;
+using Core.Security.EmailAuthenticator;
 using Core.Security.Jwt;
 using Domain.Entities;
 using Microsoft.Extensions.Logging;
-using System;
-using System.Collections.Generic;
-using System.Text;
-
+using MimeKit;
 namespace Application.Services.AuthServices
 {
     public class AuthManager : IAuthService
@@ -17,20 +17,20 @@ namespace Application.Services.AuthServices
         private readonly ITokenGenerator _tokenGenerator;
         private readonly IUnitOfWork _unitOfWork;
         private readonly ILogger<AuthManager> _logger;
-        //private readonly IEmailAuthenticator _emailAuthenticator;
-        //private readonly IEmailAuthenticatorRepository _emailAuthenticatorRepository;
-        //private readonly IMailService _mailService;
+        private readonly IEmailAuthenticator _emailAuthenticator;
+        private readonly IEmailAuthenticatorRepository _emailAuthenticatorRepository;
+        private readonly IMailService _mailService;
 
-        public AuthManager(IRefreshTokenRepository refreshTokenRepository, ITokenGenerator tokenGenerator, IUnitOfWork unitOfWork, ILogger<AuthManager> logger //, IEmailAuthenticator emailAuthenticator, IMailService mailService, IEmailAuthenticatorRepository emailAuthenticatorRepository
-                                                                                                                                                               )
+        public AuthManager(IRefreshTokenRepository refreshTokenRepository, ITokenGenerator tokenGenerator, IUnitOfWork unitOfWork, ILogger<AuthManager> logger , IEmailAuthenticator emailAuthenticator, IMailService mailService, IEmailAuthenticatorRepository emailAuthenticatorRepository)
+
         {
             _refreshTokenRepository = refreshTokenRepository;
             _tokenGenerator = tokenGenerator;
             _unitOfWork = unitOfWork;
             _logger = logger;
-            //_emailAuthenticator = emailAuthenticator;
-            //_mailService = mailService;
-            //_emailAuthenticatorRepository = emailAuthenticatorRepository;
+            _emailAuthenticator = emailAuthenticator;
+            _mailService = mailService;
+            _emailAuthenticatorRepository = emailAuthenticatorRepository;
         }
 
         public async Task<RefreshToken> AddRefreshToken(RefreshToken refreshToken)
@@ -134,91 +134,76 @@ namespace Application.Services.AuthServices
             await _unitOfWork.SaveChangesAsync();
         }
 
-        //public async Task SendAuthenticatorCodeAsync(User user, CancellationToken cancellationToken = default)
-        //{
-        //    if (user.AuthenticatorType is AuthenticatorType.Email)
-        //        await SendAuthenticatorCodeWithEmail(user);
-        //}
+        public async Task SendAuthenticatorCodeAsync(User user, CancellationToken cancellationToken = default)
+        {
+            if (user.AuthenticatorType is AuthenticatorType.Email)
+                await SendAuthenticatorCodeWithEmail(user);
+        }
 
-        //public async Task VerifyAuthenticatorCodeAsync(User user, string code, CancellationToken cancellationToken = default)
-        //{
-        //    if (user.AuthenticatorType is AuthenticatorType.Email)
-        //        await VerifyAuthenticatorCodeWithEmail(user, code);
-        //}
+        public async Task VerifyAuthenticatorCodeAsync(User user, string code, CancellationToken cancellationToken = default)
+        {
+            if (user.AuthenticatorType is AuthenticatorType.Email)
+                await VerifyAuthenticatorCodeWithEmail(user, code);
+        }
 
-        //public async Task<EmailAuthenticator> CreateEmailAuthenticatorAsync(User user, CancellationToken cancellationToken = default)
-        //{
-        //    EmailAuthenticator emailAuthenticator = new()
-        //    {
-        //        UserId = user.Id,
-        //        ActivationKey = await _emailAuthenticator.CreateEmailActivationKey(),
-        //        IsVerified = false
-        //    };
-        //    return emailAuthenticator;
-        //}
+        public async Task<EmailAuthenticator> CreateEmailAuthenticatorAsync(User user, CancellationToken cancellationToken = default)
+        {
+            EmailAuthenticator emailAuthenticator = new()
+            {
+                UserId = user.Id,
+                ActivationKey = await _emailAuthenticator.CreateEmailActivationKey(),
+                IsVerified = false
+            };
+            return emailAuthenticator;
+        }
 
-        //private async Task SendAuthenticatorCodeWithEmail(User user)
-        //{
-        //    EmailAuthenticator? emailAuthenticator = await _emailAuthenticatorRepository.GetAsync(predicate: e =>
-        //        e.UserId == user.Id, asNoTracking: true
-        //    );
-        //    if (emailAuthenticator is null)
-        //        throw new NotFoundException("Email Authenticator not found.");
-        //    if (!emailAuthenticator.IsVerified)
-        //        throw new BusinessException("Email Authenticator must be is verified.");
+        private async Task SendAuthenticatorCodeWithEmail(User user)
+        {
+            EmailAuthenticator? emailAuthenticator = await _emailAuthenticatorRepository.GetAsync(predicate: e =>
+                e.UserId == user.Id, asNoTracking: true
+            );
+            if (emailAuthenticator is null)
+                throw new NotFoundException("Email Authenticator not found.");
+            if (!emailAuthenticator.IsVerified)
+                throw new BusinessException("Email Authenticator must be is verified.");
 
-        //    string authenticatorCode = await _emailAuthenticator.CreateEmailActivationCode();
-        //    emailAuthenticator.ActivationKey = authenticatorCode;
-        //    await _emailAuthenticatorRepository.UpdateAsync(emailAuthenticator);
-        //    await _unitOfWork.SaveChangesAsync();
+            string authenticatorCode = await _emailAuthenticator.CreateEmailActivationCode();
+            emailAuthenticator.ActivationKey = authenticatorCode;
+            await _emailAuthenticatorRepository.UpdateAsync(emailAuthenticator);
+            await _unitOfWork.SaveChangesAsync();
 
-        //    var toEmailList = new List<MailboxAddress> { new(name: user.Email, address: user.Email) };
+            var toEmailList = new List<MailboxAddress> { new(name: user.Email, address: user.Email) };
 
-        //    await _mailService.SendMailAsync(
-        //        new Mail
-        //        {
-        //            ToList = toEmailList,
-        //            Subject = "Authenticator Code",
-        //            TextBody = $"Enter your authenticator code: {authenticatorCode}"
-        //        }
-        //    );
-        //}
+            await _mailService.SendMailAsync(
+                new Mail
+                {
+                    ToList = toEmailList,
+                    Subject = "Authenticator Code",
+                    TextBody = $"Enter your authenticator code: {authenticatorCode}"
+                }
+            );
+        }
 
 
-        //private async Task VerifyAuthenticatorCodeWithEmail(User user, string authenticatorCode)
-        //{
-        //    EmailAuthenticator? emailAuthenticator = await _emailAuthenticatorRepository.GetAsync(predicate: e =>
-        //        e.UserId == user.Id, asNoTracking: true
-        //    );
-        //    if (emailAuthenticator is null)
-        //        throw new NotFoundException("Email Authenticator not found.");
-        //    if (emailAuthenticator.ActivationKey != authenticatorCode)
-        //        throw new BusinessException("Authenticator code is invalid.");
-        //    emailAuthenticator.ActivationKey = null;
-        //    await _emailAuthenticatorRepository.UpdateAsync(emailAuthenticator);
-        //    await _unitOfWork.SaveChangesAsync();
-        //}
+        private async Task VerifyAuthenticatorCodeWithEmail(User user, string authenticatorCode)
+        {
+            EmailAuthenticator? emailAuthenticator = await _emailAuthenticatorRepository.GetAsync(predicate: e =>
+                e.UserId == user.Id, asNoTracking: true
+            );
+            if (emailAuthenticator is null)
+                throw new NotFoundException("Email Authenticator not found.");
+            if (emailAuthenticator.ActivationKey != authenticatorCode)
+                throw new BusinessException("Authenticator code is invalid.");
+            emailAuthenticator.ActivationKey = null;
+            await _emailAuthenticatorRepository.UpdateAsync(emailAuthenticator);
+            await _unitOfWork.SaveChangesAsync();
+        }
 
         public async Task DeleteAllOldRefreshTokens(CancellationToken cancellationToken = default)
         {
             var oldTokens = await _refreshTokenRepository.GetListAsync(predicate: r => (r.Expires < DateTime.UtcNow || r.Revoked != null));
             await _refreshTokenRepository.DeleteRangeAsync(oldTokens); // ayrıca burda permanent parametresi kullanarak kalıcı olarak silebiliriz.
             await _unitOfWork.SaveChangesAsync(cancellationToken);
-        }
-
-        public Task SendAuthenticatorCodeAsync(User user, CancellationToken cancellationToken = default)
-        {
-            throw new NotImplementedException();
-        }
-
-        public Task VerifyAuthenticatorCodeAsync(User user, string code, CancellationToken cancellationToken = default)
-        {
-            throw new NotImplementedException();
-        }
-
-        public Task<EmailAuthenticator> CreateEmailAuthenticatorAsync(User user, CancellationToken cancellationToken = default)
-        {
-            throw new NotImplementedException();
         }
     }
 }

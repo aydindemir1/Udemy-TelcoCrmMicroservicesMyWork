@@ -1,6 +1,8 @@
-﻿using Application.Features.Auth.Commands.Login;
+﻿using Application.Features.Auth.Commands.EnableEmailAuthenticator;
+using Application.Features.Auth.Commands.Login;
 using Application.Features.Auth.Commands.RefreshTokens;
 using Application.Features.Auth.Commands.Register;
+using Application.Features.Auth.Commands.VerifyEmailAuthenticator;
 using Application.Features.Auth.Responses;
 using Core.Cqrs;
 using Core.Security.Jwt;
@@ -49,22 +51,22 @@ namespace WebApi.Controllers
             return Created("", response.AccessToken);
         }
 
-        //[HttpGet("EnableEmailAuthenticator")]
-        //public async Task<IActionResult> EnableEmailAuthenticator()
-        //{
-        //    EnableEmailAuthenticatorCommand enableEmailAuthenticatorCommand =
-        //        new() { UserId = getUserIdFromRequest(), VerifyEmailUrl = $"{_configuration["APIUrl"]}/Auth/VerifyEmail" };
-        //    await CqrsProcessor.SendAsync(enableEmailAuthenticatorCommand);
+        [HttpGet("EnableEmailAuthenticator")]
+        public async Task<IActionResult> EnableEmailAuthenticator()
+        {
+            EnableEmailAuthenticatorCommand enableEmailAuthenticatorCommand =
+                new() { UserId = getUserIdFromRequest(), VerifyEmailUrl = $"{_configuration["APIUrl"]}/Auth/VerifyEmail" };
+            await CqrsProcessor.SendAsync(enableEmailAuthenticatorCommand);
 
-        //    return Ok();
-        //}
+            return Ok();
+        }
 
-        //[HttpPost("VerifyEmail")]
-        //public async Task<IActionResult> VerifyStatus([FromQuery] VerifyEmailAuthenticatorCommand command)
-        //{
-        //    await CqrsProcessor.SendAsync(command);
+        [HttpPost("VerifyEmail")]
+        public async Task<IActionResult> VerifyStatus([FromQuery] VerifyEmailAuthenticatorCommand command)
+        {
+            await CqrsProcessor.SendAsync(command);
 
-        //    return Ok();
-        //}
+            return Ok();
+        }
     }
 }
