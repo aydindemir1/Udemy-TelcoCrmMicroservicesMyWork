@@ -8,17 +8,20 @@
 
   <ItemGroup>
     <Folder Include="Features\Auth\Commands\EnableEmailAuthenticator\" />
-    <Folder Include="Features\Auth\Commands\Login\" />
     <Folder Include="Features\Auth\Commands\VerifyEmailAuthenticator\" />
-    <Folder Include="Features\Auth\Commands\Register\" />
     <Folder Include="Features\Auth\Commands\RefreshTokens\" />
-    <Folder Include="Features\Auth\Constants\" />
-    <Folder Include="Features\Auth\Rules\" />
-    <Folder Include="Features\Auth\Responses\" />
   </ItemGroup>
 
   <ItemGroup>
     <PackageReference Include="Core.Abstractions" Version="3.1.6" />
+    <PackageReference Include="Core.Application" Version="3.0.1" />
+    <PackageReference Include="Core.Cqrs" Version="3.0.0" />
+    <PackageReference Include="Core.CrossCuttingConcerns.Exceptions" Version="3.0.0" />
+    <PackageReference Include="Core.Extensions" Version="3.0.3" />
+    <PackageReference Include="Core.Security.Hashing" Version="3.0.0" />
+    <PackageReference Include="Core.Security.Jwt" Version="3.0.0" />
+    <PackageReference Include="FluentValidation" Version="12.1.1" />
+    <PackageReference Include="FluentValidation.DependencyInjectionExtensions" Version="12.1.1" />
   </ItemGroup>
 
   <ItemGroup>
