@@ -1,5 +1,6 @@
 ﻿using Application.Features.Auth.Constants;
 using Application.Repositories;
+using Application.Services.AuthServices;
 using Core.Abstractions.ContextExecutions;
 using Core.Abstractions.Rules;
 using Core.CrossCuttingConcerns.Exceptions.Types;
@@ -20,17 +21,17 @@ namespace Application.Features.Auth.Rules
         private readonly IUnitOfWork _unitOfWork;
         private readonly IConfiguration _configuration;
         private readonly IRefreshTokenRepository _refreshTokenRepository;
-       // private readonly IAuthService _authService;
+        private readonly IAuthService _authService;
 
-        public AuthBusinessRules(IUserRepository userRepository, IPasswordHasher passwordHasher, IUnitOfWork unitOfWork, IConfiguration configuration, IRefreshTokenRepository refreshTokenRepository//, IAuthService authService
-                                                                                                                                                                                                     )
+        public AuthBusinessRules(IUserRepository userRepository, IPasswordHasher passwordHasher, IUnitOfWork unitOfWork, IConfiguration configuration, IRefreshTokenRepository refreshTokenRepository, IAuthService authService)
+
         {
             _userRepository = userRepository;
             _passwordHasher = passwordHasher;
             _unitOfWork = unitOfWork;
             _configuration = configuration;
             _refreshTokenRepository = refreshTokenRepository;
-           // _authService = authService;
+            _authService = authService;
         }
 
         public Task EmailAuthenticatorShouldBeExists(Domain.Entities.EmailAuthenticator? emailAuthenticator)
@@ -62,25 +63,25 @@ namespace Application.Features.Auth.Rules
             return Task.CompletedTask;
         }
 
-        //public async Task RefreshTokenShouldBeExists(RefreshToken? refreshToken,
-        //string? tokenFromCookie)
-        //{
-        //    if (refreshToken != null) return;
+        public async Task RefreshTokenShouldBeExists(RefreshToken? refreshToken,
+        string? tokenFromCookie)
+        {
+            if (refreshToken != null) return;
 
-        //    if (!string.IsNullOrEmpty(tokenFromCookie))
-        //    {
-        //        var tokenInDb = await _refreshTokenRepository.GetAsync(rt => rt.Token ==
-        //         tokenFromCookie, asNoTracking: true, withDeleted: true);
+            if (!string.IsNullOrEmpty(tokenFromCookie))
+            {
+                var tokenInDb = await _refreshTokenRepository.GetAsync(rt => rt.Token ==
+                 tokenFromCookie, asNoTracking: true, withDeleted: true);
 
-        //        if (tokenInDb != null && tokenInDb.Revoked != null)
-        //        {
-        //            await _authService.RevokeDescendantRefreshTokens(tokenInDb,
-        //             tokenInDb.CreatedByIp, "Attempted reuse of revoked token");
-        //        }
-        //    }
+                if (tokenInDb != null && tokenInDb.Revoked != null)
+                {
+                    await _authService.RevokeDescendantRefreshTokens(tokenInDb,
+                     tokenInDb.CreatedByIp, "Attempted reuse of revoked token");
+                }
+            }
 
-        //    throw new BusinessException(AuthMessages.RefreshDontExists);
-        //}
+            throw new BusinessException(AuthMessages.RefreshDontExists);
+        }
 
 
         public async Task UserEmailShouldBeNotExists(string email)

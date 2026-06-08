@@ -1,7 +1,9 @@
 ﻿using Application.Features.Auth.Commands.Login;
+using Application.Features.Auth.Commands.RefreshTokens;
 using Application.Features.Auth.Commands.Register;
 using Application.Features.Auth.Responses;
 using Core.Cqrs;
+using Core.Security.Jwt;
 using Core.WebApi;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -38,14 +40,14 @@ namespace WebApi.Controllers
             return Ok(loggedResponse.ToResponse());
         }
 
-        //[HttpGet("RefreshToken")]
-        //public async Task<ActionResult<AccessToken>> RefreshToken()
-        //{
-        //    RefreshTokenCommand command = new RefreshTokenCommand() { RefreshToken = getRefreshTokenFromCookie(), IpAddress = getIpAddress() };
-        //    RefreshedTokenResponse response = await CqrsProcessor.SendAsync(command);
-        //    setRefreshTokenFromCookie(response.RefreshToken);
-        //    return Created("", response.AccessToken);
-        //}
+        [HttpGet("RefreshToken")]
+        public async Task<ActionResult<AccessToken>> RefreshToken()
+        {
+            RefreshTokenCommand command = new RefreshTokenCommand() { RefreshToken = getRefreshTokenFromCookie(), IpAddress = getIpAddress() };
+            RefreshedTokenResponse response = await CqrsProcessor.SendAsync(command);
+            setRefreshTokenFromCookie(response.RefreshToken);
+            return Created("", response.AccessToken);
+        }
 
         //[HttpGet("EnableEmailAuthenticator")]
         //public async Task<IActionResult> EnableEmailAuthenticator()
