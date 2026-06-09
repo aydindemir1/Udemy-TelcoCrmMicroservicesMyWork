@@ -2,6 +2,9 @@
 using Core.Messaging;
 using Core.Messaging.Postgres.Extensions;
 using Core.Messaging.Transport.RabbitMq;
+using Core.Security.Encryption;
+using Core.Security.Jwt;
+using Core.Security.Redis;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using System;
@@ -14,10 +17,10 @@ namespace Infrastructure
     {
         public static IServiceCollection AddInfrastructureServices(this IServiceCollection services, IConfiguration configuration)
         {
-            //services
-            //   .AddJwtServices()
-            //   .AddEncryptServices()
-            //   .AddRedisSecurityServices(configuration);
+            services
+               .AddJwtServices()
+               .AddEncryptServices()
+               .AddRedisSecurityServices(configuration);
 
             services.AddRabbitMqTransport(configuration)
                 .AddMessagingCore()

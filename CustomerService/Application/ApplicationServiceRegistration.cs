@@ -1,6 +1,7 @@
 ﻿using Application.Features.IndividualCustomers.Rules;
 using Application.Services.Districts;
 using Core.Abstractions.Rules;
+using Core.Application.Pipelines.Authorization;
 using Core.Application.Pipelines.Validation;
 using Core.Cqrs;
 using Core.Extensions;
@@ -24,7 +25,7 @@ namespace Application
             {
             //    services.AddTransient(typeof(IPipelineBehavior<,>), typeof(OtelDiagnosticsRequestBehavior<,>));
                 services.AddTransient(typeof(IPipelineBehavior<,>), typeof(RequestValidationBehavior<,>));
-            //    services.AddTransient(typeof(IPipelineBehavior<,>), typeof(AuthorizationBehavior<,>));
+                services.AddTransient(typeof(IPipelineBehavior<,>), typeof(AuthorizationBehavior<,>));
             });
 
             services.AddScoped<IDistrictService, DistrictManager>();

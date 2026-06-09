@@ -1,4 +1,5 @@
 ﻿using Core.Abstractions.Cqrs.Command;
+using Core.Application.Pipelines.Authorization;
 using MediatR;
 using System;
 using System.Collections.Generic;
@@ -17,7 +18,7 @@ namespace Application.Features.IndividualCustomers.Commands.Create
     //}
 
     // Yeni yapı
-    public class CreateIndividualCustomerCommand : ICreateCommand<CreatedIndividualCustomerResponse> //, IAuthenticationRequest
+    public class CreateIndividualCustomerCommand : ICreateCommand<CreatedIndividualCustomerResponse> , IAuthenticationRequest
     {
         public string FirstName { get; set; }
         public string LastName { get; set; }
