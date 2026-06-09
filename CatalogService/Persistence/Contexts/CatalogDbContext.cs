@@ -1,4 +1,5 @@
-﻿using Core.Persistence.Contexts;
+﻿using Core.Abstractions.Events.Internal;
+using Core.Persistence.Contexts;
 using Domain.Entities;
 using Microsoft.EntityFrameworkCore;
 using System;
@@ -11,8 +12,8 @@ namespace Persistence.Contexts
 {
     public class CatalogDbContext : EfDbContextBase
     {
-        public CatalogDbContext(DbContextOptions<CatalogDbContext> options//, IDomainEventDispatcher? domainEventDispatcher = null
-                                                                          ) : base(options //, domainEventDispatcher
+        public CatalogDbContext(DbContextOptions<CatalogDbContext> options, IDomainEventDispatcher? domainEventDispatcher = null
+                                                                          ) : base(options, domainEventDispatcher
                                                                                            )
         {
         }

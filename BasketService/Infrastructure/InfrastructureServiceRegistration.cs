@@ -1,7 +1,11 @@
 ﻿using Application.Clients;
 using Core.Events;
+using Core.Extensions.Auth;
 using Core.Messaging;
 using Core.Messaging.Transport.RabbitMq;
+using Core.Security.Encryption;
+using Core.Security.Jwt;
+using Core.Security.Redis;
 using Infrastructure.Clients;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -22,8 +26,8 @@ namespace Infrastructure
                 client.BaseAddress = new Uri(configuration["ExternalServices:CatalogService"]);
             })
             //.AddCustomPolicyHandlers()
-            .AddServiceDiscovery();
-            //.AddAuthTokenHandler();
+            .AddServiceDiscovery()
+            .AddAuthTokenHandler();
 
 
             services.AddHttpClient<ICustomerServiceClient, CustomerServiceClient>(client =>
@@ -31,13 +35,13 @@ namespace Infrastructure
                 client.BaseAddress = new Uri(configuration["ExternalServices:CustomerService"]);
             })
             //  .AddCustomPolicyHandlers()
-             .AddServiceDiscovery();
-            //  .AddAuthTokenHandler();
+             .AddServiceDiscovery()
+             .AddAuthTokenHandler();
 
-            //services
-            //   .AddJwtServices()
-            //   .AddEncryptServices()
-            //   .AddRedisSecurityServices(configuration);
+            services
+               .AddJwtServices()
+               .AddEncryptServices()
+               .AddRedisSecurityServices(configuration);
 
             services.AddRabbitMqTransport(configuration)
                .AddHostedSubscriber()

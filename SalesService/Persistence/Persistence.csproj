@@ -7,7 +7,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Core.Persistence" Version="3.0.4" />
+    <PackageReference Include="Core.Persistence" Version="3.0.6" />
     <PackageReference Include="Microsoft.Extensions.Configuration.Binder" Version="10.0.8" />
   </ItemGroup>
 

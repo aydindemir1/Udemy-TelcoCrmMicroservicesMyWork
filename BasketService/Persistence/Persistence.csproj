@@ -7,7 +7,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Core.Persistence" Version="3.0.3" />
+    <PackageReference Include="Core.Persistence" Version="3.0.6" />
     <PackageReference Include="StackExchange.Redis" Version="2.13.1" />
   </ItemGroup>
 

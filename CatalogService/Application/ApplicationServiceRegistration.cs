@@ -1,6 +1,7 @@
 ﻿using Application.Services.Categories;
 using Application.Services.ProductSpecifications;
 using Core.Abstractions.Rules;
+using Core.Application.Pipelines.Authorization;
 using Core.Application.Pipelines.Validation;
 using Core.Cqrs;
 using Core.Extensions;
@@ -18,15 +19,15 @@ namespace Application
             var assemblies = Core.Extensions.AssemblyExtensions.GetDomainAssemblies("Application");
 
             // CQRS ve MediatR Pipeline Davranışları
-            services.AddCqrs(assemblies); //, services =>
-            //{
+            services.AddCqrs(assemblies, services =>
+            {
             //    services.AddTransient(typeof(IPipelineBehavior<,>), typeof(OtelDiagnosticsRequestBehavior<,>));
-            //    services.AddTransient(typeof(IPipelineBehavior<,>), typeof(RequestValidationBehavior<,>));
-            //    services.AddTransient(typeof(IPipelineBehavior<,>), typeof(AuthorizationBehavior<,>));
+                services.AddTransient(typeof(IPipelineBehavior<,>), typeof(RequestValidationBehavior<,>));
+               services.AddTransient(typeof(IPipelineBehavior<,>), typeof(AuthorizationBehavior<,>));
 
-            //});
+            });
 
-            //Cross Cuttuing Concerns 
+            //Cross cutting Concerns 
             //services.AddValidatorsFromAssembly(Assembly.GetExecutingAssembly());
             services.AddAutoMapper(cfg => cfg.AddMaps(assemblies));
 

@@ -1,4 +1,5 @@
 ﻿using Core.Abstractions.Cqrs.Command;
+using Core.Application.Pipelines.Authorization;
 using Domain.Enums;
 using System;
 using System.Collections.Generic;
@@ -6,7 +7,7 @@ using System.Text;
 
 namespace Application.Features.ProductOfferings.Commands.Create
 {
-    public class CreateProductOfferingCommand : ICreateCommand<CreatedProductOfferingResponse>//, IAuthenticationRequest
+    public class CreateProductOfferingCommand : ICreateCommand<CreatedProductOfferingResponse>, IAuthenticationRequest
     {
         public Guid CategoryId { get; set; }
         public Guid ProductSpecificationId { get; set; }

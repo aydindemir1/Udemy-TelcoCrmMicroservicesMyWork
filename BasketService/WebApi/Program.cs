@@ -2,9 +2,12 @@ using Core.CrossCuttingConcerns.Exceptions.Extensions;
 using Application;
 using Infrastructure;
 using Persistence;
-using Microsoft.AspNetCore.Identity;
 using Core.Extensions;
 using Steeltoe.Discovery.Client;
+using Core.Security.Jwt;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.IdentityModel.Tokens;
+using Core.Security.Encryption;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -16,21 +19,21 @@ builder.Services.AddPersistenceServices(builder.Configuration);
 builder.Services.AddDiscoveryClient();
 builder.Services.AddHttpContextAccessor();
 
-//TokenOptions? tokenOptions = builder.Configuration.GetSection("TokenOptions").Get<TokenOptions>();
-//builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme).AddJwtBearer(options =>
-//{
-//    options.TokenValidationParameters = new TokenValidationParameters
-//    {
-//        ValidateIssuer = true,
-//        ValidateAudience = true,
-//        ValidateLifetime = true,
-//        ValidIssuer = tokenOptions.Issuer,
-//        ValidAudience = tokenOptions.Audience,
-//        ValidateIssuerSigningKey = true,
-//        IssuerSigningKey = builder.Services.BuildServiceProvider().GetRequiredService<ISigningCredentialsProvider>().GetSigningCredentials().Key,
-//        ClockSkew = TimeSpan.Zero
-//    };
-//});
+TokenOptions? tokenOptions = builder.Configuration.GetSection("TokenOptions").Get<TokenOptions>();
+builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme).AddJwtBearer(options =>
+{
+    options.TokenValidationParameters = new TokenValidationParameters
+    {
+        ValidateIssuer = true,
+        ValidateAudience = true,
+        ValidateLifetime = true,
+        ValidIssuer = tokenOptions.Issuer,
+        ValidAudience = tokenOptions.Audience,
+        ValidateIssuerSigningKey = true,
+        IssuerSigningKey = builder.Services.BuildServiceProvider().GetRequiredService<ISigningCredentialsProvider>().GetSigningCredentials().Key,
+        ClockSkew = TimeSpan.Zero
+    };
+});
 
 
 var app = builder.Build();
@@ -42,8 +45,8 @@ if (app.Environment.IsDevelopment() || app.Environment.IsProduction())
 ServiceActivator.Configure(app.Services);
 
 app.UseRouting();
-//app.UseAuthentication();
-//app.UseAuthorization();
+app.UseAuthentication();
+app.UseAuthorization();
 app.MapControllers();
 
 app.Run();

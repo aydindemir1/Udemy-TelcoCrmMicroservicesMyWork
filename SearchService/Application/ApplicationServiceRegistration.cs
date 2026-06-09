@@ -1,4 +1,6 @@
-﻿using Core.Cqrs;
+﻿using Core.Application.Pipelines.Authorization;
+using Core.Cqrs;
+using MediatR;
 using Microsoft.Extensions.DependencyInjection;
 using System;
 using System.Collections.Generic;
@@ -12,12 +14,12 @@ namespace Application
         {
             var assemblies = Core.Extensions.AssemblyExtensions.GetDomainAssemblies("Application");
 
-            services.AddCqrs(assemblies);
-            //    , services =>
-            //{
+            services.AddCqrs(assemblies
+                , services =>
+            {
             //    services.AddTransient(typeof(IPipelineBehavior<,>), typeof(OtelDiagnosticsRequestBehavior<,>));
-            //    services.AddTransient(typeof(IPipelineBehavior<,>), typeof(AuthorizationBehavior<,>));
-            //});
+                services.AddTransient(typeof(IPipelineBehavior<,>), typeof(AuthorizationBehavior<,>));
+            });
             return services;
         }
     }

@@ -1,4 +1,5 @@
 ﻿using Core.Abstractions.Cqrs.Command;
+using Core.Application.Pipelines.Authorization;
 using Domain.Enums;
 using System;
 using System.Collections.Generic;
@@ -6,7 +7,7 @@ using System.Text;
 
 namespace Application.Features.ProductSpecifications.Commands
 {
-    public class CreateProductSpecificationCommand : ICreateCommand<CreatedProductSpecificationResponse>//, IAuthenticationRequest
+    public class CreateProductSpecificationCommand : ICreateCommand<CreatedProductSpecificationResponse>, IAuthenticationRequest
     {
         public short ModelId { get; set; }
         public string Name { get; set; } = null!;

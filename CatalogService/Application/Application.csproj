@@ -9,8 +9,8 @@
 
   <ItemGroup>
     <PackageReference Include="AutoMapper" Version="16.1.1" />
-    <PackageReference Include="Core.Abstractions" Version="3.1.1" />
-    <PackageReference Include="Core.Application" Version="3.0.0" />
+    <PackageReference Include="Core.Abstractions" Version="3.1.6" />
+    <PackageReference Include="Core.Application" Version="3.0.2" />
     <PackageReference Include="Core.Cqrs" Version="3.0.0" />
     <PackageReference Include="Core.Extensions" Version="3.0.3" />
     <PackageReference Include="Microsoft.EntityFrameworkCore" Version="10.0.7" />

@@ -10,6 +10,9 @@
     <PackageReference Include="Core.Events" Version="3.0.0" />
     <PackageReference Include="Core.Messaging" Version="3.0.0" />
     <PackageReference Include="Core.Messaging.Transport.RabbitMq" Version="3.0.0" />
+    <PackageReference Include="Core.Security.Encryption" Version="3.0.1" />
+    <PackageReference Include="Core.Security.Jwt" Version="3.0.1" />
+    <PackageReference Include="Core.Security.Redis" Version="3.0.0" />
     <PackageReference Include="Microsoft.Extensions.Configuration.Abstractions" Version="10.0.8" />
     <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="10.0.8" />
   </ItemGroup>

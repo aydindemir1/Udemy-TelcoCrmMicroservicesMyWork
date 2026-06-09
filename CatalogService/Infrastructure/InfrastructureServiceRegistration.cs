@@ -1,4 +1,8 @@
-﻿using Microsoft.Extensions.Configuration;
+﻿using Core.Events;
+using Core.Security.Encryption;
+using Core.Security.Jwt;
+using Core.Security.Redis;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace Infrastructure
@@ -9,12 +13,12 @@ namespace Infrastructure
         {
             //services.AddHangfireScheduler(configuration);
 
-            //services.AddDomainEvent();
+            services.AddDomainEvent();
 
-            //services
-            //  .AddJwtServices()
-            //  .AddEncryptServices()
-            //  .AddRedisSecurityServices(configuration);
+            services
+              .AddJwtServices()
+              .AddEncryptServices()
+              .AddRedisSecurityServices(configuration);
 
             //services.AddOTelIntegration(configuration);
 
