@@ -3,6 +3,7 @@ using Core.Events;
 using Core.Extensions.Auth;
 using Core.Messaging;
 using Core.Messaging.Transport.RabbitMq;
+using Core.Resiliency.Retry;
 using Core.Security.Encryption;
 using Core.Security.Jwt;
 using Core.Security.Redis;
@@ -25,7 +26,7 @@ namespace Infrastructure
             {
                 client.BaseAddress = new Uri(configuration["ExternalServices:CatalogService"]);
             })
-            //.AddCustomPolicyHandlers()
+            .AddCustomPolicyHandlers()
             .AddServiceDiscovery()
             .AddAuthTokenHandler();
 
@@ -34,7 +35,7 @@ namespace Infrastructure
             {
                 client.BaseAddress = new Uri(configuration["ExternalServices:CustomerService"]);
             })
-            //  .AddCustomPolicyHandlers()
+              .AddCustomPolicyHandlers()
              .AddServiceDiscovery()
              .AddAuthTokenHandler();
 
