@@ -1,4 +1,5 @@
-﻿using Core.Security.EmailAuthenticator;
+﻿using Core.Mailing;
+using Core.Security.EmailAuthenticator;
 using Core.Security.Encryption;
 using Core.Security.Hashing;
 using Core.Security.Jwt;
@@ -19,7 +20,7 @@ namespace Infrastructure
 
             //services.AddHostedService<SchedulerBootstrapperHostedService>();
 
-            //services.AddMailing();
+            services.AddMailing();
 
             services
                 .AddEmailAuthenticatorServices()
