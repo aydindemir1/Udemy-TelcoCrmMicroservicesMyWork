@@ -7,7 +7,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Core.Abstractions" Version="3.1.6" />
+    <PackageReference Include="Core.Abstractions" Version="3.1.8" />
     <PackageReference Include="Core.Persistence" Version="3.0.5" />
     <PackageReference Include="Microsoft.EntityFrameworkCore" Version="10.0.7" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="10.0.7" />

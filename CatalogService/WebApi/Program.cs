@@ -1,7 +1,9 @@
 using Application;
 using Core.CrossCuttingConcerns.Exceptions.Extensions;
+using Core.Scheduling.Hangfire;
 using Core.Security.Encryption;
 using Core.Security.Jwt;
+using Hangfire;
 using Infrastructure;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Persistence;
@@ -44,7 +46,8 @@ var app = builder.Build();
 
 if (app.Environment.IsDevelopment() || app.Environment.IsProduction())
     app.ConfigureExceptionMiddleware();
-//app.UseHangfireScheduler();
+
+app.UseHangfireScheduler();
 //app.UseMonitoring();
 app.UseRouting();
 app.UseAuthentication();

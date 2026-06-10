@@ -1,9 +1,11 @@
 ﻿using Core.Events;
+using Core.Scheduling.Hangfire;
 using Core.Security.Encryption;
 using Core.Security.Jwt;
 using Core.Security.Redis;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+
 
 namespace Infrastructure
 {
@@ -11,7 +13,7 @@ namespace Infrastructure
     {
         public static IServiceCollection AddInfrastructureServices(this IServiceCollection services, IConfiguration configuration)
         {
-            //services.AddHangfireScheduler(configuration);
+            services.AddHangfireScheduler(configuration);
 
             services.AddDomainEvent();
 

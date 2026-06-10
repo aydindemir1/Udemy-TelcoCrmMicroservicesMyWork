@@ -1,9 +1,11 @@
 ﻿using Core.Mailing;
+using Core.Scheduling.Hangfire;
 using Core.Security.EmailAuthenticator;
 using Core.Security.Encryption;
 using Core.Security.Hashing;
 using Core.Security.Jwt;
 using Core.Security.Redis;
+using Infrastructure.Scheduler;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using System;
@@ -16,9 +18,9 @@ namespace Infrastructure
     {
         public static IServiceCollection AddInfrastructureServices(this IServiceCollection services, IConfiguration configuration)
         {
-            //services.AddHangfireScheduler(configuration);
+            services.AddHangfireScheduler(configuration);
 
-            //services.AddHostedService<SchedulerBootstrapperHostedService>();
+            services.AddHostedService<SchedulerBootstrapperHostedService>();
 
             services.AddMailing();
 

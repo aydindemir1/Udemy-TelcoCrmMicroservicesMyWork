@@ -1,5 +1,7 @@
-﻿using Core.Domain;
+﻿using Core.Abstractions.Domain;
+using Core.Domain;
 using Domain.Enums;
+using Domain.Events;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -7,7 +9,7 @@ using System.Text;
 namespace Domain.Entities
 {
     // Ürün teklifi (Offering)
-    public class ProductOffering : BaseEntity<Guid>
+    public class ProductOffering : AggregateRoot<Guid>
     {
         public Guid CategoryId { get; set; }
         public Guid ProductSpecificationId { get; set; }
@@ -61,8 +63,8 @@ namespace Domain.Entities
             var productOffering = new ProductOffering
             { Id = Guid.NewGuid(), CategoryId = categoryId, ProductSpecificationId = productSpecificationId, Name = name, Description = description, ValidFrom = validFrom, ValidTo = validTo, Status = status };
 
-            //if (validTo.HasValue)
-            //    productOffering.AddDomainEvent(new ProductOfferingExpiryScheduledDomainEvent(productOffering.Id, validTo.Value));
+            if (validTo.HasValue)
+                productOffering.AddDomainEvent(new ProductOfferingExpiryScheduledDomainEvent(productOffering.Id, validTo.Value));
 
             return productOffering;
         }

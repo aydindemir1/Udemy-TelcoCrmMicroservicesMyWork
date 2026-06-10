@@ -1,4 +1,5 @@
-﻿using Core.Abstractions.Cqrs;
+﻿using Application.Scheduler;
+using Core.Abstractions.Cqrs;
 using Core.Abstractions.Events.Internal;
 using Domain.Events;
 using System;
@@ -18,7 +19,7 @@ namespace Application.Features.ProductOfferings.EventHandlers
 
         public async Task Handle(ProductOfferingExpiryScheduledDomainEvent notification, CancellationToken cancellationToken)
         {
-            //await _cqrsProcessor.SendAsync(new ScheduleProductOfferingExpiryCommand(notification.ProductOfferId, notification.ValidTo, Domain.Enums.ProductOfferingStatus.Retired), cancellationToken);
+            await _cqrsProcessor.SendAsync(new ScheduleProductOfferingExpiryCommand(notification.ProductOfferId, notification.ValidTo, Domain.Enums.ProductOfferingStatus.Retired), cancellationToken);
         }
     }
 }
