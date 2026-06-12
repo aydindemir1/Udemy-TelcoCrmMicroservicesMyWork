@@ -2,6 +2,7 @@
 using Core.Events;
 using Core.Messaging;
 using Core.Messaging.Transport.RabbitMq;
+using Core.Monitoring.HealthChecks;
 using Core.Security.Encryption;
 using Core.Security.Jwt;
 using Core.Security.Redis;
@@ -33,10 +34,10 @@ namespace Infrastructure
 
             //services.AddOTelIntegration(configuration);
 
-            //services.AddMonitoring(configuration, builder =>
-            //{
-            //    builder.AddElasticsearch(elasticsearchUri: configuration["ElasticSearch:ConnectionString"], name: "searchservice-db", tags: new[] { "services" });
-            //});
+            services.AddMonitoring(configuration, builder =>
+            {
+                builder.AddElasticsearch(elasticsearchUri: configuration["ElasticSearch:ConnectionString"], name: "searchservice-db", tags: new[] { "services" });
+            });
 
             return services;
         }

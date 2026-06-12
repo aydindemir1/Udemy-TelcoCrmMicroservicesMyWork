@@ -3,6 +3,7 @@ using Core.Events;
 using Core.Extensions.Auth;
 using Core.Messaging;
 using Core.Messaging.Transport.RabbitMq;
+using Core.Monitoring.HealthChecks;
 using Core.Resiliency.Retry;
 using Core.Security.Encryption;
 using Core.Security.Jwt;
@@ -51,10 +52,10 @@ namespace Infrastructure
 
             //services.AddOTelIntegration(configuration);
 
-            //services.AddMonitoring(configuration, builder =>
-            //{
-            //    builder.AddRedis(redisConnectionString: configuration.GetConnectionString("BasketDbConnection"), name: "basketservice-db", tags: new[] { "services" });
-            //});
+            services.AddMonitoring(configuration, builder =>
+            {
+                builder.AddRedis(redisConnectionString: configuration.GetConnectionString("BasketDbConnection"), name: "basketservice-db", tags: new[] { "services" });
+            });
 
 
             return services;

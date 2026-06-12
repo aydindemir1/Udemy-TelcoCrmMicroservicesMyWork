@@ -7,7 +7,9 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="AspNetCore.HealthChecks.Elasticsearch" Version="9.0.0" />
     <PackageReference Include="Core.ElasticSearch" Version="3.0.0" />
+    <PackageReference Include="Core.Monitoring" Version="3.0.6" />
     <PackageReference Include="Core.Security.Encryption" Version="3.0.1" />
     <PackageReference Include="Core.Security.Jwt" Version="3.0.1" />
     <PackageReference Include="Core.Security.Redis" Version="3.0.0" />

@@ -15,6 +15,7 @@ using Steeltoe.Discovery.Client;
 using Core.Security.Jwt;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Core.Security.Encryption;
+using Core.Monitoring.HealthChecks;
 
 
 var builder = WebApplication.CreateBuilder(args);
@@ -54,7 +55,7 @@ var app = builder.Build();
 
 if (app.Environment.IsDevelopment() || app.Environment.IsProduction())
    app.ConfigureExceptionMiddleware();
-//app.UseMonitoring();
+app.UseMonitoring();
 app.UseRouting();
 await app.UsePostgresMessaging();
 app.UseAuthentication();

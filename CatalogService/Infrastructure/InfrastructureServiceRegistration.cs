@@ -1,4 +1,5 @@
 ﻿using Core.Events;
+using Core.Monitoring.HealthChecks;
 using Core.Scheduling.Hangfire;
 using Core.Security.Encryption;
 using Core.Security.Jwt;
@@ -24,10 +25,10 @@ namespace Infrastructure
 
             //services.AddOTelIntegration(configuration);
 
-            //services.AddMonitoring(configuration, builder =>
-            //{
-            //    builder.AddSqlServer(connectionString: configuration.GetConnectionString("CatalogDbConnection"), name: "catalogservice-db", tags: new[] { "services" });
-            //});
+            services.AddMonitoring(configuration, builder =>
+            {
+                builder.AddSqlServer(connectionString: configuration.GetConnectionString("CatalogDbConnection"), name: "catalogservice-db", tags: new[] { "services" });
+            });
 
 
             return services;

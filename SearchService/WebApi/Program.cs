@@ -1,6 +1,7 @@
 using Application;
 using Core.CrossCuttingConcerns.Exceptions.Extensions;
 using Core.Extensions;
+using Core.Monitoring.HealthChecks;
 using Core.Security.Encryption;
 using Core.Security.Jwt;
 using Infrastructure;
@@ -40,7 +41,7 @@ ServiceActivator.Configure(app.Services);
 
 if (app.Environment.IsDevelopment() || app.Environment.IsProduction())
     app.ConfigureExceptionMiddleware();
-//app.UseMonitoring();
+app.UseMonitoring();
 app.UseRouting();
 app.UseAuthentication();
 app.UseAuthorization();

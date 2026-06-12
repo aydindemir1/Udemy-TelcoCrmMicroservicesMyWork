@@ -1,5 +1,6 @@
 using Application;
 using Core.CrossCuttingConcerns.Exceptions.Extensions;
+using Core.Monitoring.HealthChecks;
 using Core.Scheduling.Hangfire;
 using Core.Security.Encryption;
 using Core.Security.Jwt;
@@ -45,7 +46,7 @@ var app = builder.Build();
 if (app.Environment.IsDevelopment() || app.Environment.IsProduction())
     app.ConfigureExceptionMiddleware();
 app.UseHangfireScheduler();
-//app.UseMonitoring();
+app.UseMonitoring();
 app.UseRouting();
 app.UseAuthentication();
 app.UseAuthorization();

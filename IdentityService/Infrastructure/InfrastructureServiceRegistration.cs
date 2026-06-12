@@ -1,4 +1,5 @@
 ﻿using Core.Mailing;
+using Core.Monitoring.HealthChecks;
 using Core.Scheduling.Hangfire;
 using Core.Security.EmailAuthenticator;
 using Core.Security.Encryption;
@@ -33,11 +34,11 @@ namespace Infrastructure
 
             //services.AddOTelIntegration(configuration);
 
-            //services.AddMonitoring(configuration, builder =>
-            //{
+            services.AddMonitoring(configuration, builder =>
+            {
 
-            //    builder.AddSqlServer(connectionString: configuration.GetConnectionString("IdentityDbConnection"), name: "identityservice-db", tags: new[] { "services" });
-            //});
+                builder.AddSqlServer(connectionString: configuration.GetConnectionString("IdentityDbConnection"), name: "identityservice-db", tags: new[] { "services" });
+            });
 
             return services;
         }

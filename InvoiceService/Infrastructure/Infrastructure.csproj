@@ -7,9 +7,11 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="AspNetCore.HealthChecks.NpgSql" Version="9.0.0" />
     <PackageReference Include="Core.Events" Version="3.0.0" />
     <PackageReference Include="Core.Messaging" Version="3.0.0" />
     <PackageReference Include="Core.Messaging.Transport.RabbitMq" Version="3.0.0" />
+    <PackageReference Include="Core.Monitoring" Version="3.0.6" />
     <PackageReference Include="Core.Security.Encryption" Version="3.0.1" />
     <PackageReference Include="Core.Security.Jwt" Version="3.0.1" />
     <PackageReference Include="Core.Security.Redis" Version="3.0.0" />

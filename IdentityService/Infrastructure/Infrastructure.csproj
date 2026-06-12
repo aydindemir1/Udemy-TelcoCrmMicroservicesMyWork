@@ -7,8 +7,10 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="AspNetCore.HealthChecks.SqlServer" Version="9.0.0" />
     <PackageReference Include="Core.Abstractions" Version="3.1.8" />
     <PackageReference Include="Core.Mailing" Version="3.0.0" />
+    <PackageReference Include="Core.Monitoring" Version="3.0.6" />
     <PackageReference Include="Core.Scheduling.Hangfire" Version="3.0.0" />
     <PackageReference Include="Core.Security.EmailAuthenticator" Version="3.0.0" />
     <PackageReference Include="Core.Security.Encryption" Version="3.0.0" />
@@ -17,7 +19,7 @@
     <PackageReference Include="Core.Security.Redis" Version="3.0.0" />
     <PackageReference Include="Microsoft.Extensions.Configuration.Abstractions" Version="10.0.8" />
     <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="10.0.8" />
-    <PackageReference Include="Microsoft.Extensions.Hosting.Abstractions" Version="8.0.1" />
+    <PackageReference Include="Microsoft.Extensions.Hosting.Abstractions" Version="10.0.7" />
   </ItemGroup>
 
   <ItemGroup>

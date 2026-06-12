@@ -8,6 +8,7 @@ using Core.Security.Jwt;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using Core.Security.Encryption;
+using Core.Monitoring.HealthChecks;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -41,7 +42,7 @@ var app = builder.Build();
 if (app.Environment.IsDevelopment() || app.Environment.IsProduction())
     app.ConfigureExceptionMiddleware();
 
-//app.UseMonitoring();
+app.UseMonitoring();
 ServiceActivator.Configure(app.Services);
 
 app.UseRouting();
