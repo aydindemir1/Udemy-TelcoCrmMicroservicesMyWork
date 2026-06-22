@@ -1,0 +1,420 @@
+{
+  "__inputs": [
+    {
+      "name": "DS_JAEGER",
+      "label": "Jaeger",
+      "description": "Jaeger tracing data source",
+      "type": "datasource",
+      "pluginId": "jaeger",
+      "pluginName": "Jaeger"
+    }
+  ],
+  "__elements": {},
+  "__requires": [
+    { "type": "grafana", "id": "grafana", "name": "Grafana", "version": "10.0.0" },
+    { "type": "panel", "id": "table", "name": "Table", "version": "" },
+    { "type": "panel", "id": "stat", "name": "Stat", "version": "" },
+    { "type": "panel", "id": "barchart", "name": "Bar chart", "version": "" },
+    { "type": "panel", "id": "histogram", "name": "Histogram", "version": "" },
+    { "type": "panel", "id": "nodeGraph", "name": "Node Graph", "version": "" },
+    { "type": "panel", "id": "timeseries", "name": "Time series", "version": "" },
+    { "type": "datasource", "id": "jaeger", "name": "Jaeger", "version": "1.0.0" }
+  ],
+  "annotations": { "list": [] },
+  "description": "TelcoCRM — Distributed Tracing Dashboard",
+  "editable": true,
+  "fiscalYearStartMonth": 0,
+  "graphTooltip": 1,
+  "id": null,
+  "links": [
+    {
+      "icon": "external link",
+      "keepTime": false,
+      "targetBlank": true,
+      "title": "Jaeger UI",
+      "type": "link",
+      "url": "http://localhost:16686"
+    }
+  ],
+  "panels": [
+    {
+      "collapsed": false,
+      "gridPos": { "h": 1, "w": 24, "x": 0, "y": 0 },
+      "id": 105,
+      "title": "Sistem Mimari Haritası (Kuşbakışı)",
+      "type": "row"
+    },
+    {
+      "datasource": { "type": "jaeger", "uid": "${DS_JAEGER}" },
+      "gridPos": { "h": 10, "w": 24, "x": 0, "y": 1 },
+      "id": 9,
+      "options": {
+        "edges": { "mainStatUnit": "ms" }
+      },
+      "targets": [
+        {
+          "datasource": { "type": "jaeger", "uid": "${DS_JAEGER}" },
+          "queryType": "dependencyGraph",
+          "refId": "A"
+        }
+      ],
+      "title": "Tüm Mikroservis Trafik Ağı (Node Graph)",
+      "type": "nodeGraph"
+    },
+    {
+      "collapsed": false,
+      "gridPos": { "h": 1, "w": 24, "x": 0, "y": 11 },
+      "id": 100,
+      "title": "Özet — $service",
+      "type": "row"
+    },
+    {
+      "datasource": { "type": "jaeger", "uid": "${DS_JAEGER}" },
+      "fieldConfig": {
+        "defaults": {
+          "color": { "mode": "fixed", "fixedColor": "blue" },
+          "unit": "none",
+          "thresholds": { "mode": "absolute", "steps": [{ "color": "blue", "value": null }] }
+        }
+      },
+      "gridPos": { "h": 4, "w": 5, "x": 0, "y": 12 },
+      "id": 1,
+      "options": {
+        "colorMode": "background", "graphMode": "none",
+        "justifyMode": "center", "orientation": "auto",
+        "reduceOptions": { "calcs": ["count"], "fields": "", "values": false },
+        "textMode": "auto"
+      },
+      "targets": [
+        {
+          "datasource": { "type": "jaeger", "uid": "${DS_JAEGER}" },
+          "queryType": "search", "refId": "A",
+          "service": "$service", "operation": "", "tags": "",
+          "minDuration": "", "maxDuration": "", "limit": 100
+        }
+      ],
+      "title": "Toplam Trace",
+      "type": "stat"
+    },
+    {
+      "datasource": { "type": "jaeger", "uid": "${DS_JAEGER}" },
+      "fieldConfig": {
+        "defaults": {
+          "color": { "mode": "fixed", "fixedColor": "red" },
+          "unit": "none",
+          "thresholds": { "mode": "absolute", "steps": [{ "color": "red", "value": null }] }
+        }
+      },
+      "gridPos": { "h": 4, "w": 5, "x": 5, "y": 12 },
+      "id": 2,
+      "options": {
+        "colorMode": "background", "graphMode": "none",
+        "justifyMode": "center", "orientation": "auto",
+        "reduceOptions": { "calcs": ["count"], "fields": "", "values": false },
+        "textMode": "auto"
+      },
+      "targets": [
+        {
+          "datasource": { "type": "jaeger", "uid": "${DS_JAEGER}" },
+          "queryType": "search", "refId": "A",
+          "service": "$service", "operation": "", "tags": "error=true",
+          "minDuration": "", "maxDuration": "", "limit": 100
+        }
+      ],
+      "title": "Hata Trace",
+      "type": "stat"
+    },
+    {
+      "datasource": { "type": "jaeger", "uid": "${DS_JAEGER}" },
+      "fieldConfig": {
+        "defaults": {
+          "unit": "ms",
+          "color": { "mode": "thresholds" },
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              { "color": "green",  "value": null },
+              { "color": "yellow", "value": 100 },
+              { "color": "orange", "value": 500 },
+              { "color": "red", "value": 1000 }
+            ]
+          }
+        }
+      },
+      "gridPos": { "h": 4, "w": 5, "x": 10, "y": 12 },
+      "id": 3,
+      "options": {
+        "colorMode": "background", "graphMode": "none",
+        "justifyMode": "center", "orientation": "auto",
+        "reduceOptions": { "calcs": ["mean"], "fields": "", "values": false },
+        "textMode": "auto"
+      },
+      "targets": [
+        {
+          "datasource": { "type": "jaeger", "uid": "${DS_JAEGER}" },
+          "queryType": "search", "refId": "A",
+          "service": "$service", "operation": "", "tags": "",
+          "minDuration": "", "maxDuration": "", "limit": 100
+        }
+      ],
+      "title": "Ort. Süre",
+      "type": "stat"
+    },
+    {
+      "datasource": { "type": "jaeger", "uid": "${DS_JAEGER}" },
+      "fieldConfig": {
+        "defaults": {
+          "unit": "ms",
+          "color": { "mode": "thresholds" },
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              { "color": "green",  "value": null },
+              { "color": "yellow", "value": 200 },
+              { "color": "orange", "value": 1000 },
+              { "color": "red", "value": 3000 }
+            ]
+          }
+        }
+      },
+      "gridPos": { "h": 4, "w": 5, "x": 15, "y": 12 },
+      "id": 4,
+      "options": {
+        "colorMode": "background", "graphMode": "none",
+        "justifyMode": "center", "orientation": "auto",
+        "reduceOptions": { "calcs": ["max"], "fields": "", "values": false },
+        "textMode": "auto"
+      },
+      "targets": [
+        {
+          "datasource": { "type": "jaeger", "uid": "${DS_JAEGER}" },
+          "queryType": "search", "refId": "A",
+          "service": "$service", "operation": "", "tags": "",
+          "minDuration": "", "maxDuration": "", "limit": 100
+        }
+      ],
+      "title": "Maks. Süre",
+      "type": "stat"
+    },
+    {
+      "datasource": { "type": "jaeger", "uid": "${DS_JAEGER}" },
+      "fieldConfig": {
+        "defaults": {
+          "color": { "mode": "fixed", "fixedColor": "cyan" },
+          "unit": "ms",
+          "thresholds": { "mode": "absolute", "steps": [{ "color": "cyan", "value": null }] }
+        }
+      },
+      "gridPos": { "h": 4, "w": 4, "x": 20, "y": 12 },
+      "id": 5,
+      "options": {
+        "colorMode": "background", "graphMode": "none",
+        "justifyMode": "center", "orientation": "auto",
+        "reduceOptions": { "calcs": ["min"], "fields": "", "values": false },
+        "textMode": "auto"
+      },
+      "targets": [
+        {
+          "datasource": { "type": "jaeger", "uid": "${DS_JAEGER}" },
+          "queryType": "search", "refId": "A",
+          "service": "$service", "operation": "", "tags": "",
+          "minDuration": "", "maxDuration": "", "limit": 100
+        }
+      ],
+      "title": "Min. Süre",
+      "type": "stat"
+    },
+    {
+      "collapsed": false,
+      "gridPos": { "h": 1, "w": 24, "x": 0, "y": 16 },
+      "id": 101,
+      "title": "Performans Görünümü — $service",
+      "type": "row"
+    },
+    {
+      "datasource": { "type": "jaeger", "uid": "${DS_JAEGER}" },
+      "fieldConfig": {
+        "defaults": {
+          "color": { "mode": "thresholds" },
+          "custom": {
+            "drawStyle": "points", "lineWidth": 0, "pointSize": 7, "fillOpacity": 70, "showPoints": "always"
+          },
+          "unit": "ms",
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              { "color": "green",  "value": null },
+              { "color": "yellow", "value": 100 },
+              { "color": "orange", "value": 500 },
+              { "color": "red", "value": 1000 }
+            ]
+          }
+        }
+      },
+      "gridPos": { "h": 12, "w": 14, "x": 0, "y": 17 },
+      "id": 6,
+      "options": { "tooltip": { "mode": "single" }, "legend": { "showLegend": false } },
+      "targets": [
+        {
+          "datasource": { "type": "jaeger", "uid": "${DS_JAEGER}" },
+          "queryType": "search", "refId": "A",
+          "service": "$service", "operation": "", "tags": "",
+          "limit": 100
+        }
+      ],
+      "title": "Trace Süresi — Zaman Üzerinde (Scatter)",
+      "type": "timeseries"
+    },
+    {
+      "datasource": { "type": "jaeger", "uid": "${DS_JAEGER}" },
+      "fieldConfig": {
+        "defaults": {
+          "color": { "mode": "fixed", "fixedColor": "super-light-blue" },
+          "unit": "ms"
+        }
+      },
+      "gridPos": { "h": 12, "w": 10, "x": 14, "y": 17 },
+      "id": 7,
+      "options": { "bucketSize": 50 },
+      "targets": [
+        {
+          "datasource": { "type": "jaeger", "uid": "${DS_JAEGER}" },
+          "queryType": "search", "refId": "A",
+          "service": "$service", "limit": 100
+        }
+      ],
+      "title": "Latency Dağılımı — Histogram",
+      "type": "histogram"
+    },
+    {
+      "collapsed": false,
+      "gridPos": { "h": 1, "w": 24, "x": 0, "y": 29 },
+      "id": 102,
+      "title": "Operasyon Analizi — $service",
+      "type": "row"
+    },
+    {
+      "datasource": { "type": "jaeger", "uid": "${DS_JAEGER}" },
+      "fieldConfig": {
+        "defaults": { "unit": "ms", "color": { "mode": "continuous-RdYlGr" } }
+      },
+      "gridPos": { "h": 12, "w": 24, "x": 0, "y": 30 },
+      "id": 8,
+      "options": {
+        "orientation": "horizontal", "xField": "traceName",
+        "stacking": "none", "tooltip": { "mode": "multi" }
+      },
+      "transformations": [
+        { "id": "sortBy", "options": { "fields": [{ "desc": true, "name": "duration" }] } },
+        { "id": "limit", "options": { "limitField": 10 } }
+      ],
+      "targets": [
+        {
+          "datasource": { "type": "jaeger", "uid": "${DS_JAEGER}" },
+          "queryType": "search", "refId": "A",
+          "service": "$service", "limit": 100
+        }
+      ],
+      "title": "En Yavaş 10 Operasyon (Süre Bazlı)",
+      "type": "barchart"
+    },
+    {
+      "collapsed": false,
+      "gridPos": { "h": 1, "w": 24, "x": 0, "y": 42 },
+      "id": 103,
+      "title": "Trace Listesi — $service",
+      "type": "row"
+    },
+    {
+      "datasource": { "type": "jaeger", "uid": "${DS_JAEGER}" },
+      "fieldConfig": {
+        "defaults": {
+          "custom": { "filterable": true },
+          "thresholds": { "mode": "absolute", "steps": [{ "color": "green", "value": null }] }
+        },
+        "overrides": [
+          {
+            "matcher": { "id": "byName", "options": "traceID" },
+            "properties": [
+              { "id": "displayName", "value": "Trace ID" },
+              { "id": "links", "value": [{ "title": "Jaeger UI'de Aç", "url": "http://localhost:16686/trace/${__value.raw}", "targetBlank": true }] }
+            ]
+          },
+          {
+            "matcher": { "id": "byName", "options": "duration" },
+            "properties": [
+              { "id": "unit", "value": "µs" },
+              { "id": "custom.cellOptions", "value": { "type": "color-background" } },
+              { "id": "thresholds", "value": { "mode": "absolute", "steps": [
+                { "color": "green", "value": null }, 
+                { "color": "yellow", "value": 100000 },
+                { "color": "orange", "value": 500000 }, 
+                { "color": "red", "value": 1000000 }
+              ]}}
+            ]
+          }
+        ]
+      },
+      "gridPos": { "h": 12, "w": 24, "x": 0, "y": 43 },
+      "id": 10,
+      "options": { "sortBy": [{ "desc": true, "displayName": "startTime" }] },
+      "targets": [
+        {
+          "datasource": { "type": "jaeger", "uid": "${DS_JAEGER}" },
+          "queryType": "search", "service": "$service", "limit": 50
+        }
+      ],
+      "title": "Son 50 Trace",
+      "type": "table"
+    },
+    {
+      "collapsed": false,
+      "gridPos": { "h": 1, "w": 24, "x": 0, "y": 55 },
+      "id": 104,
+      "title": "Hata Analizi — $service",
+      "type": "row"
+    },
+    {
+      "datasource": { "type": "jaeger", "uid": "${DS_JAEGER}" },
+      "gridPos": { "h": 10, "w": 24, "x": 0, "y": 56 },
+      "id": 11,
+      "options": { "sortBy": [{ "desc": true, "displayName": "startTime" }] },
+      "targets": [
+        {
+          "datasource": { "type": "jaeger", "uid": "${DS_JAEGER}" },
+          "queryType": "search", "service": "$service", "tags": "error=true", "limit": 50
+        }
+      ],
+      "title": "Hata Trace'leri — $service",
+      "type": "table"
+    }
+  ],
+  "refresh": "10s",
+  "schemaVersion": 38,
+  "tags": ["jaeger", "tracing", "telco", "microservices"],
+  "templating": {
+    "list": [
+      {
+        "name": "service",
+        "type": "custom",
+        "query": "ApiGateway,BasketService,CatalogService,CustomerService,IdentityService,InvoiceService,SalesService,SearchService",
+        "current": { "text": "IdentityService", "value": "IdentityService" },
+        "options": [
+          { "text": "ApiGateway", "value": "ApiGateway" },
+          { "text": "BasketService", "value": "BasketService" },
+          { "text": "CatalogService", "value": "CatalogService" },
+          { "text": "CustomerService", "value": "CustomerService" },
+          { "text": "IdentityService", "value": "IdentityService" },
+          { "text": "InvoiceService", "value": "InvoiceService" },
+          { "text": "SalesService", "value": "SalesService" },
+          { "text": "SearchService", "value": "SearchService" }
+        ]
+      }
+    ]
+  },
+  "time": { "from": "now-3h", "to": "now" },
+  "timezone": "browser",
+  "title": "TelcoCRM — Distributed Tracing",
+  "uid": "telco-crm-jaeger-tracing",
+  "version": 4
+}

@@ -3,6 +3,7 @@ using Core.Abstractions.Rules;
 using Core.Application.Pipelines.Validation;
 using Core.Cqrs;
 using Core.Extensions;
+using Core.Tracing.Mediator;
 using FluentValidation;
 using MediatR;
 using Microsoft.Extensions.DependencyInjection;
@@ -21,7 +22,7 @@ namespace Application
 
             services.AddCqrs(assemblies, services =>
             {
-                //services.AddTransient(typeof(IPipelineBehavior<,>), typeof(OtelDiagnosticsRequestBehavior<,>));
+                services.AddTransient(typeof(IPipelineBehavior<,>), typeof(OtelDiagnosticsRequestBehavior<,>));
                 services.AddTransient(typeof(IPipelineBehavior<,>), typeof(RequestValidationBehavior<,>));
             });
 

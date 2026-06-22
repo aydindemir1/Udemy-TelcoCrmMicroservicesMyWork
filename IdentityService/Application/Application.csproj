@@ -16,6 +16,7 @@
     <PackageReference Include="Core.Security.EmailAuthenticator" Version="3.0.0" />
     <PackageReference Include="Core.Security.Hashing" Version="3.0.0" />
     <PackageReference Include="Core.Security.Jwt" Version="3.0.0" />
+    <PackageReference Include="Core.Tracing" Version="3.0.0" />
     <PackageReference Include="FluentValidation" Version="12.1.1" />
     <PackageReference Include="FluentValidation.DependencyInjectionExtensions" Version="12.1.1" />
   </ItemGroup>

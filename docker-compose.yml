@@ -1,176 +1,354 @@
-services:
-  
-  eurekaserver:
-    image: steeltoeoss/eureka-server
-    container_name: eurekaserver
-    ports:
-     - "8761:8761"
-    networks:
-     - udemy
+version: '3.6'
 
+services: 
 
-  customerdb:
-    image: postgres
-    container_name: customerdb
-    ports:
-      - "5433:5432"
-    environment:
-      - POSTGRES_USER=admin
-      - POSTGRES_PASSWORD=123456
-      - POSTGRES_DB=customerdb
-    volumes:
-      - customerdb:/var/lib/postgresql/data
-    networks:
-      - udemy
-  
-  catalogdb:
-    image: mcr.microsoft.com/mssql/server:2022-latest
-    container_name: catalogdb
-    environment:
-     - ACCEPT_EULA=Y
-     - SA_PASSWORD=YourStrong!Pass123
-     - MSSQL_PID=Developer
-    ports:
-     - "1435:1433"
-    volumes:
-     - catalogdb:/var/opt/mssql
-    networks:
-     - udemy
-  
-  basketdb:
-    image: redis:7.2
-    container_name: basketdb
-    ports:
-     - "6390:6379"
-    volumes:
-     - basketdb:/data
-    command : ["redis-server","--appendonly","yes"]
-    networks:
-     - udemy
-  
-  salesdb:
-    image: mongo
-    container_name: salesdb
-    ports:
-     - "27017:27017"
-    volumes:
-     - "salesdb:/data/db/"
-    networks:
-     - udemy
-  
-  invoicedb:
-    image: postgres
-    container_name: invoicedb  
-    ports:
-     - "5434:5432"
-    environment:
-     - POSTGRES_USER=admin
-     - POSTGRES_PASSWORD=123456
-     - POSTGRES_DB=invoicedb
-    networks:
-     - udemy
+ #service configrations
 
+ eurekaserver:
+  image: steeltoeoss/eureka-server
+  container_name: eurekaserver
+  ports:
+    - "8761:8761"
+  networks:
+    - udemy
+ 
+ apigateway:
+  build:
+    context: .
+    dockerfile: ./ApiGateway/Dockerfile
+  container_name: apigateway
+  image: apigateway
+  environment:
+    - ASPNETCORE_ENVIRONMENT=Production
+    - ASPNETCORE_URLS=http://+:9500 # Bu satırı ekleyin
+  ports:
+    - 9500:9500
+  restart: always
+  depends_on:
+    - eurekaserver
+  networks:
+    - udemy
+
+ identityservice:
+  build:
+    context: .
+    dockerfile: IdentityService/WebApi/Dockerfile
+  container_name: identityservice
+  image: identityservice
+  restart: always
+  environment:
+    - ASPNETCORE_ENVIRONMENT=Production
+    - ASPNETCORE_URLS=http://+:5000
+  ports:
+    - 5000:5000
+  depends_on:
+    - identitydb
+    - authroledb
+    - eurekaserver
+  networks:
+    - udemy
   
-  identitydb:
-    image: mcr.microsoft.com/mssql/server:2022-latest
-    container_name: identitydb
+ customerservice:
+  build:
+    context: .
+    dockerfile: CustomerService/WebApi/Dockerfile
+  container_name: customerservice
+  image: customerservice
+  environment:
+    - ASPNETCORE_ENVIRONMENT=Production
+    - ASPNETCORE_URLS=http://+:5001 
+  ports:
+    - 5001:5001
+  restart: always
+  depends_on:
+    - eurekaserver
+    - customerdb
+    - authroledb
+  networks:
+    - udemy
+ 
+ searchservice:
+    build:
+      context: .
+      dockerfile: SearchService/WebApi/Dockerfile
+    container_name: searchservice
+    image: searchservice
     environment:
-     - ACCEPT_EULA=Y
-     - SA_PASSWORD=YourStrong!Pass123
-     - MSSQL_PID=Developer
+      - ASPNETCORE_ENVIRONMENT=Production
+      - ASPNETCORE_URLS=http://+:5002 # Bu satırı ekleyin
     ports:
-     - "1436:1433"
-    volumes:
-     - identitydb:/var/opt/mssql
-    networks:
-     - udemy
-
-  authroledb:
-    image: redis:7.2
-    container_name: authroledb
-    ports:
-     - "6391:6379"
-    volumes:
-     - authroledb:/data
-    command : ["redis-server","--appendonly","yes"]
-    networks:
-     - udemy
-
-  elasticsearch:
-    image: docker.elastic.co/elasticsearch/elasticsearch:8.14.1
-    container_name: elasticsearch
-    environment:
-      - discovery.type=single-node
-      - xpack.security.enabled=false
-      - "ES_JAVA_OPTS=-Xms512m -Xmx512m"
-    ports:
-      - "9200:9200"
-    volumes:
-      - esdata:/usr/share/elasticsearch/data
-    networks:
-      - udemy
-
-  kibana:
-    image: docker.elastic.co/kibana/kibana:8.14.1
-    container_name: kibana
-    ports:
-      - "5601:5601"
-    environment:
-      - ELASTICSEARCH_HOSTS=http://elasticsearch:9200
+      - 5002:5002
+    restart: unless-stopped
     depends_on:
+      - eurekaserver
       - elasticsearch
     networks:
       - udemy
   
-  # message broker  
-  rabbitmq:
-   image: rabbitmq:3.13-management
-   container_name: rabbitmq
-   hostname: rabbitmq
-   ports:
-    - "5672:5672"
-    - "15672:15672"
-   environment:
-    RABBITMQ_DEFAULT_USER : admin
-    RABBITMQ_DEFAULT_PASS : admin123
-   volumes:
-    - rabbitmq_data:/var/lib/rabbitmq
-   networks:
+ catalogservice:
+  build:
+    context: .
+    dockerfile: CatalogService/WebApi/Dockerfile
+  container_name: catalogservice
+  image: catalogservice
+  environment:
+    - ASPNETCORE_ENVIRONMENT=Production
+    - ASPNETCORE_URLS=http://+:5003 
+  ports:
+    - 5003:5003
+  restart: always
+  depends_on:
+    - eurekaserver
+    - catalogdb
+    - authroledb
+  networks:
     - udemy
   
-  # monitoring
-  prometheus:
-    image: prom/prometheus
-    container_name: prometheus
-    ports:
-     - 9090:9090
-    volumes:
-     - ./prometheus.yml:/etc/prometheus/prometheus.yml
-    command:
-     - '--config.file=/etc/prometheus/prometheus.yml'
-    networks:
-     - udemy
 
-  grafana:
-    image: grafana/grafana
-    container_name: grafana
-    ports:
-      - 3000:3000
-    depends_on:
-      - prometheus 
-    networks:
-      - udemy
+ basketservice:
+  build:
+    context: .
+    dockerfile: BasketService/WebApi/Dockerfile
+  container_name: basketservice
+  image: basketservice
+  environment:
+    - ASPNETCORE_ENVIRONMENT=Production
+    - ASPNETCORE_URLS=http://+:5004
+  ports:
+    - 5004:5004
+  restart: always
+  depends_on:
+    - eurekaserver
+    - basketdb
+    - authroledb
+  networks:
+    - udemy
+  
+ salesservice:
+  build:
+    context: .
+    dockerfile: SalesService/WebApi/Dockerfile
+  container_name: salesservice
+  image: salesservice
+  environment:
+    - ASPNETCORE_ENVIRONMENT=Production
+    - ASPNETCORE_URLS=http://+:5005
+  ports:
+    - 5005:5005
+  restart: always
+  depends_on:
+    - eurekaserver
+    - salesdb
+    - authroledb
+  networks:
+    - udemy
   
 
-  # mailing 
-  mailhog:
-    image: mailhog/mailhog:latest
-    container_name: mailhog
-    ports:
-     - "1025:1025" # SMTP server (Senin servislerin buraya bağlanacak)
-     - "8025:8025" # HTTP UI (Mailleri tarayıcıdan izleyeceğin arayüz)
-    networks:
-     - udemy
+ invoiceservice:
+  build:
+    context: .
+    dockerfile: InvoiceService/WebApi/Dockerfile
+  container_name: invoiceservice
+  image: invoiceservice
+  environment:
+    - ASPNETCORE_ENVIRONMENT=Production
+    - ASPNETCORE_URLS=http://+:5006
+  ports:
+    - 5006:5006
+  restart: always
+  depends_on:
+    - eurekaserver
+    - invoicedb
+    - authroledb
+  networks:
+    - udemy
+
+
+
+ #db configurations
+ customerdb:
+  image: postgres:17
+  container_name: customerdb
+  ports:
+    - "5433:5432"
+  environment:
+    - POSTGRES_USER=admin
+    - POSTGRES_PASSWORD=123456
+    - POSTGRES_DB=customerdb
+  volumes:
+    - customerdb:/var/lib/postgresql/data
+  networks:
+    - udemy
+ 
+ catalogdb:
+  image: mcr.microsoft.com/mssql/server:2022-latest
+  container_name: catalogdb
+  environment:
+    - ACCEPT_EULA=Y
+    - SA_PASSWORD=YourStrong!Pass123
+    - MSSQL_PID=Developer
+  ports:
+    - "1435:1433"
+  volumes:
+    - catalogdb:/var/opt/mssql
+  networks:
+    - udemy
+
+ basketdb:
+  image: redis:7.2
+  container_name: basketdb
+  ports:
+    - "6390:6379"
+  volumes:
+    - basketdb:/data
+  command : ["redis-server","--appendonly","yes"]
+  networks:
+    - udemy
+ 
+ salesdb:
+  image: mongo
+  container_name: salesdb
+  ports:
+    - "27017:27017"
+  volumes:
+    - "salesdb:/data/db/"
+  networks:
+    - udemy
+
+ invoicedb:
+  image: postgres:17
+  container_name: invoicedb  
+  ports:
+    - "5434:5432"
+  environment:
+    - POSTGRES_USER=admin
+    - POSTGRES_PASSWORD=123456
+    - POSTGRES_DB=invoicedb
+  networks:
+    - udemy
+ 
+ identitydb:
+  image: mcr.microsoft.com/mssql/server:2022-latest
+  container_name: identitydb
+  environment:
+    - ACCEPT_EULA=Y
+    - SA_PASSWORD=YourStrong!Pass123
+    - MSSQL_PID=Developer
+  ports:
+    - "1436:1433"
+  volumes:
+    - identitydb:/var/opt/mssql
+  networks:
+    - udemy
+
+ authroledb:
+  image: redis:7.2
+  container_name: authroledb
+  ports:
+    - "6391:6379"
+  volumes:
+    - authroledb:/data
+  command : ["redis-server","--appendonly","yes"]
+  networks:
+    - udemy
+
+ elasticsearch:
+  image: docker.elastic.co/elasticsearch/elasticsearch:8.14.1
+  container_name: elasticsearch
+  environment:
+    - discovery.type=single-node
+    - xpack.security.enabled=false
+    - "ES_JAVA_OPTS=-Xms512m -Xmx512m"
+  ports:
+    - "9200:9200"
+  volumes:
+    - esdata:/usr/share/elasticsearch/data
+  networks:
+    - udemy
+
+ kibana:
+  image: docker.elastic.co/kibana/kibana:8.14.1
+  container_name: kibana
+  ports:
+    - "5601:5601"
+  environment:
+    - ELASTICSEARCH_HOSTS=http://elasticsearch:9200
+  depends_on:
+    - elasticsearch
+  networks:
+    - udemy
+
+  
+
+  # message broker  
+ rabbitmq:
+  image: rabbitmq:3.13-management
+  container_name: rabbitmq
+  hostname: rabbitmq
+  ports:
+    - "5672:5672"
+    - "15672:15672"
+  environment:
+    RABBITMQ_DEFAULT_USER : admin
+    RABBITMQ_DEFAULT_PASS : admin123
+  volumes:
+    - rabbitmq_data:/var/lib/rabbitmq
+  networks:
+    - udemy
+
+  #  monitoring
+
+ prometheus:
+  image: prom/prometheus
+  container_name: prometheus
+  ports:
+    - 9090:9090
+  volumes:
+    - ./prometheus.yml:/etc/prometheus/prometheus.yml
+  command:
+    - '--config.file=/etc/prometheus/prometheus.yml'
+  networks:
+    - udemy
+
+ 
+ grafana:
+  image: grafana/grafana
+  container_name: grafana
+  ports:
+    - 3000:3000
+  depends_on:
+    - prometheus 
+  networks:
+    - udemy
+
+ 
+
+ # tracing
+ jaeger:
+  image: jaegertracing/all-in-one:latest
+  container_name: jaeger
+  environment:
+    - COLLECTOR_OTLP_ENABLED=true
+  ports:
+    - "4318:4318" # Jaeger Http
+    - "16686:16686" #Jaeger UI
+  networks:
+    - udemy
+
+# mailing 
+ mailhog:
+  image: mailhog/mailhog:latest
+  container_name: mailhog
+  ports:
+    - "1025:1025" # SMTP server (Senin servislerin buraya bağlanacak)
+    - "8025:8025" # HTTP UI (Mailleri tarayıcıdan izleyeceğin arayüz)
+  networks:
+    - udemy
+
+
+
+   
+
 
 volumes:
   customerdb:
@@ -185,3 +363,5 @@ volumes:
 networks:
   udemy:
     driver: bridge
+   
+   

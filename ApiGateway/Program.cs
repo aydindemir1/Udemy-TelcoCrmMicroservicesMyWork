@@ -1,4 +1,5 @@
 using Core.CrossCuttingConcerns.Exceptions.Extensions;
+using Core.Tracing;
 using Ocelot.DependencyInjection;
 using Ocelot.Middleware;
 using Ocelot.Provider.Eureka;
@@ -15,7 +16,7 @@ builder.Configuration
     .AddJsonFile($"ocelot.{env.EnvironmentName}.json", optional: true)
     .AddEnvironmentVariables();
 
-//builder.Services.AddOTelIntegration(builder.Configuration);
+builder.Services.AddOTelIntegration(builder.Configuration);
 
 builder.Services.AddOcelot()
     .AddEureka()

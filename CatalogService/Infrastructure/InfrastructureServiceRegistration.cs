@@ -4,6 +4,7 @@ using Core.Scheduling.Hangfire;
 using Core.Security.Encryption;
 using Core.Security.Jwt;
 using Core.Security.Redis;
+using Core.Tracing;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -23,7 +24,7 @@ namespace Infrastructure
               .AddEncryptServices()
               .AddRedisSecurityServices(configuration);
 
-            //services.AddOTelIntegration(configuration);
+            services.AddOTelIntegration(configuration);
 
             services.AddMonitoring(configuration, builder =>
             {

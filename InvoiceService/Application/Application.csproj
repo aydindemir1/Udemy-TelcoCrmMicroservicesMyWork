@@ -11,6 +11,7 @@
     <PackageReference Include="Core.Application" Version="3.0.2" />
     <PackageReference Include="Core.Cqrs" Version="3.0.0" />
     <PackageReference Include="Core.Extensions" Version="3.0.3" />
+    <PackageReference Include="Core.Tracing" Version="3.0.0" />
     <PackageReference Include="MediatR" Version="14.1.0" />
     <PackageReference Include="Shared" Version="3.0.1" />
   </ItemGroup>

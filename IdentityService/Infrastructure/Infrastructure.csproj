@@ -13,10 +13,11 @@
     <PackageReference Include="Core.Monitoring" Version="3.0.6" />
     <PackageReference Include="Core.Scheduling.Hangfire" Version="3.0.0" />
     <PackageReference Include="Core.Security.EmailAuthenticator" Version="3.0.0" />
-    <PackageReference Include="Core.Security.Encryption" Version="3.0.0" />
+    <PackageReference Include="Core.Security.Encryption" Version="3.0.1" />
     <PackageReference Include="Core.Security.Hashing" Version="3.0.0" />
-    <PackageReference Include="Core.Security.Jwt" Version="3.0.0" />
+    <PackageReference Include="Core.Security.Jwt" Version="3.0.1" />
     <PackageReference Include="Core.Security.Redis" Version="3.0.0" />
+    <PackageReference Include="Core.Tracing" Version="3.0.0" />
     <PackageReference Include="Microsoft.Extensions.Configuration.Abstractions" Version="10.0.8" />
     <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="10.0.8" />
     <PackageReference Include="Microsoft.Extensions.Hosting.Abstractions" Version="10.0.7" />

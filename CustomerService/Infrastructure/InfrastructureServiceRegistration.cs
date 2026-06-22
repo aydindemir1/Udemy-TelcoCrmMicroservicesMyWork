@@ -6,6 +6,7 @@ using Core.Monitoring.HealthChecks;
 using Core.Security.Encryption;
 using Core.Security.Jwt;
 using Core.Security.Redis;
+using Core.Tracing;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using System;
@@ -28,7 +29,7 @@ namespace Infrastructure
                 .AddMessagingSerializer()
                 .AddEvent();
 
-            //services.AddOTelIntegration(configuration);
+            services.AddOTelIntegration(configuration);
 
             services.AddMonitoring(configuration, builder =>
             {

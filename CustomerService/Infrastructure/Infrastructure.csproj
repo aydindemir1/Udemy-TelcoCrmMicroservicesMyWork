@@ -8,6 +8,7 @@
 
   <ItemGroup>
     <PackageReference Include="AspNetCore.HealthChecks.NpgSql" Version="9.0.0" />
+	  <PackageReference Include="Core.Abstractions" Version="3.1.7" />
     <PackageReference Include="Core.Events" Version="3.0.0" />
     <PackageReference Include="Core.Messaging" Version="3.0.0" />
     <PackageReference Include="Core.Messaging.Postgres" Version="3.0.1" />
@@ -15,6 +16,7 @@
     <PackageReference Include="Core.Monitoring" Version="3.0.6" />
     <PackageReference Include="Core.Security.Jwt" Version="3.0.1" />
     <PackageReference Include="Core.Security.Redis" Version="3.0.0" />
+    <PackageReference Include="Core.Tracing" Version="3.0.0" />
     <PackageReference Include="Microsoft.Extensions.Configuration.Abstractions" Version="10.0.7" />
     <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="10.0.7" />
   </ItemGroup>

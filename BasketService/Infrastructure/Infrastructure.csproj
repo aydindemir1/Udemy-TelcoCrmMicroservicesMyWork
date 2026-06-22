@@ -17,6 +17,7 @@
     <PackageReference Include="Core.Security.Encryption" Version="3.0.1" />
     <PackageReference Include="Core.Security.Jwt" Version="3.0.1" />
     <PackageReference Include="Core.Security.Redis" Version="3.0.0" />
+    <PackageReference Include="Core.Tracing" Version="3.0.0" />
     <PackageReference Include="Microsoft.Extensions.Configuration.Abstractions" Version="10.0.9" />
     <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="10.0.9" />
     <PackageReference Include="Microsoft.Extensions.Http" Version="10.0.9" />

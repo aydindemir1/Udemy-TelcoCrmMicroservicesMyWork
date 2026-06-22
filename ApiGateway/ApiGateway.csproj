@@ -4,10 +4,14 @@
     <TargetFramework>net10.0</TargetFramework>
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
+    <DockerDefaultTargetOS>Linux</DockerDefaultTargetOS>
+    <DockerfileContext>.</DockerfileContext>
   </PropertyGroup>
 
   <ItemGroup>
     <PackageReference Include="Core.CrossCuttingConcerns.Exceptions" Version="3.0.0" />
+    <PackageReference Include="Core.Tracing" Version="3.0.0" />
+    <PackageReference Include="Microsoft.VisualStudio.Azure.Containers.Tools.Targets" Version="1.23.0" />
     <PackageReference Include="Ocelot" Version="24.0.0" />
     <PackageReference Include="Ocelot.Provider.Eureka" Version="24.0.0" />
     <PackageReference Include="Ocelot.Provider.Polly" Version="24.0.0" />

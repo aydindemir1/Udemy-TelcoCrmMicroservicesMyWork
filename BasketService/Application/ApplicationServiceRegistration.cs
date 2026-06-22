@@ -5,6 +5,7 @@ using System.Text;
 using Core.Cqrs;
 using MediatR;
 using Core.Application.Pipelines.Authorization;
+using Core.Tracing.Mediator;
 
 namespace Application
 {
@@ -17,7 +18,7 @@ namespace Application
             // CQRS ve MediatR Pipeline Davranışları
             services.AddCqrs(assemblies, services =>
             {
-            //    services.AddTransient(typeof(IPipelineBehavior<,>), typeof(OtelDiagnosticsRequestBehavior<,>));
+                services.AddTransient(typeof(IPipelineBehavior<,>), typeof(OtelDiagnosticsRequestBehavior<,>));
                 services.AddTransient(typeof(IPipelineBehavior<,>), typeof(AuthorizationBehavior<,>));
             });
 

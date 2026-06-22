@@ -1,5 +1,6 @@
 ﻿using Core.Application.Pipelines.Authorization;
 using Core.Cqrs;
+using Core.Tracing.Mediator;
 using MediatR;
 using Microsoft.Extensions.DependencyInjection;
 using System;
@@ -17,7 +18,7 @@ namespace Application
             // CQRS ve MediatR Pipeline Davranışları
             services.AddCqrs(assemblies, services =>
             {
-            //    services.AddTransient(typeof(IPipelineBehavior<,>), typeof(OtelDiagnosticsRequestBehavior<,>));
+               services.AddTransient(typeof(IPipelineBehavior<,>), typeof(OtelDiagnosticsRequestBehavior<,>));
                 services.AddTransient(typeof(IPipelineBehavior<,>), typeof(AuthorizationBehavior<,>));
             });
 
